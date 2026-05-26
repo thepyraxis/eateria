@@ -3,7 +3,7 @@
 Premium Pan-Asian dining website experience inspired by luxury modern restaurant aesthetics.
 
 ## Live Demo
-https://thepyraxis.github.io/eateria-luxury-restaurant/
+https://thepyraxis.github.io/eateria
 
 ## Features
 - Responsive premium UI
