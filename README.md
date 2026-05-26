@@ -17,7 +17,6 @@ https://thepyraxis.github.io/eateria
 - HTML5
 - CSS3
 - JavaScript
-- Node.js
 
 ## Author
 PYRAXIS
