@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en-IN" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Eateria — Premium Pan-Asian Dining sanctuary</title>
+    <meta name="description" content="Handcrafted Pan-Asian fusion creations delivered in 30 minutes or enjoyed in our immersive dark-themed sanctuary in Hyderabad, India.">
+    
+    <!-- Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self' http://localhost:5000 https://eateria-backend.onrender.com https://eateria-ui.netlify.app wss://eateria-backend.onrender.com;">
+
+    <!-- OpenGraph & SEO tags -->
+    <meta property="og:title" content="Eateria — Premium Pan-Asian Dining sanctuary">
+    <meta property="og:description" content="Premium Pan-Asian fusion creations delivered in 30 minutes.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0a0a0a">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Preload Hero Videos based on device and orientation to prevent black borders -->
+    <link rel="preload" as="video" href="assets/123456.mp4" media="(min-width: 769px), (orientation: landscape)" type="video/mp4">
+    <link rel="preload" as="video" href="assets/7890.mp4" media="(max-width: 768px) and (orientation: portrait)" type="video/mp4">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css?v=2.7">
+</head>
+<body>
+
+    <!-- ==========================================================================
+       Header 
+       ========================================================================== -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">E<span class="accent">ATERIA</span></a>
+            
+            <nav class="nav-links" id="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#menu" class="nav-link">Menu</a>
+                <a href="#reservations" class="nav-link">Reservations</a>
+                <a href="#story" class="nav-link">Our Story</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="btn btn-primary btn-sm nav-cta" id="track-order-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span class="btn-label">Track Order</span>
+                </button>
+                <button class="cart-icon-wrapper" aria-label="View Cart" style="background: none; border: none; cursor: pointer; padding: 0; position: relative;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </button>
+                <button class="menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-controls="nav-menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+       Hero Landing Section 
+       ========================================================================== -->
+    <main id="main-content">
+    <section id="home" class="intro-section">
+    <!-- Fullscreen video background -->
+    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp">
+        <!-- Source assigned via optimized JS in script.js to prevent flickering -->
+    </video>
+
+    <!-- 3‑D animated overlay content -->
+    <div class="intro-wrapper">
+        <div class="intro-content">
+            <h1 class="intro-title serif">
+                Authentic Pan-Asian Crave <br>
+                Delivered in 30 Minutes <br>
+                or <span class="accent-color">Enjoy Here</span>
+            </h1>
+            <p class="intro-subtitle">
+                Restaurant‑quality sushi rolls, poke bowls & bao • Made fresh • Same kitchen for dine‑in & delivery
+            </p>
+            
+            <div class="hero-actions">
+                <a href="#menu" class="btn btn-primary btn-lg cta-order-online" aria-label="Order Online">
+                    <svg class="icon icon-md icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16"></polygon><circle cx="5.5" cy="18.5" r="1.5"></circle><circle cx="18.5" cy="18.5" r="1.5"></circle></svg>
+                    <span class="btn-label">Order Online</span>
+                </a>
+
+                <a href="#reservations" class="btn btn-primary btn-lg cta-reserve" aria-label="Reserve a Table">
+                    <svg class="icon icon-md icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span class="btn-label">Reserve a Table</span>
+                </a>
+
+                <a href="#contact" class="btn btn-primary btn-lg cta-contact" aria-label="Contact Us">
+                    <svg class="icon icon-md icon-left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12 1.21.37 2.39.73 3.52a2 2 0 0 1-.45 2.11L8.09 10.91a16 16 0 0 0 6 6l1.56-1.56a2 2 0 0 1 2.11-.45c1.13.36 2.31.61 3.52.73A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span class="btn-label">Contact Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- ==========================================================================
+       Menu Section (Search, Filters & 6 Premium Cards)
+       ========================================================================== -->
+    <section id="menu" class="menu-section fade-section">
+        <div class="section-container">
+                <div class="section-header">
+                <span class="section-subtitle-badge">
+                        <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 20a7 7 0 0 1 0-14c.1 0 .2 0 .3.01A7 7 0 0 0 8.5 20z"></path><path d="M12 2s1.5 2 1.5 4.5S12 10 12 10"></path></svg>
+                    </span> Trending Now
+                </span>
+                <h2 class="section-title serif">Tonight's <span class="accent-color">Cravings</span></h2>
+                <p class="section-desc">Handcrafted items blending authentic techniques with high-end global elements.</p>
+            </div>
+
+            <!-- Menu Search & Filter Controls -->
+            <div class="menu-controls-wrapper">
+                <div class="search-bar-wrapper">
+                    <span class="search-icon">
+                        <svg class="icon icon-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input type="text" id="menu-search" placeholder="Search menu..." aria-label="Search menu items">
+                </div>
+                <div class="filter-pills-container">
+                    <button class="filter-pill active" data-category="all">All Items</button>
+                    <button class="filter-pill" data-category="sushi">Sushi Rolls</button>
+                    <button class="filter-pill" data-category="poke">Poke Bowls</button>
+                    <button class="filter-pill" data-category="robata">Robata</button>
+                    <button class="filter-pill" data-category="noodles">Noodles</button>
+                </div>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Card 1: Spicy Tuna Roll (Local AI generated graphic) -->
+                <div class="menu-card" data-category="sushi">
+                    <div class="card-img-wrapper">
+                        <img src="images/spicy_tuna_rolls.webp" alt="Spicy Tuna Roll" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag tag-accent">Chef's Choice</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Spicy Tuna Roll</h3>
+                            <span class="card-price">₹499</span>
+                        </div>
+                        <p class="card-desc">Gourmet yellowfin tuna, house chili crunch, cucumber, toasted sesame seeds, micro greens.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary btn-sm add-to-cart-quick" data-id="spicy-tuna" data-name="Spicy Tuna Roll" data-price="499">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Spicy Dan Dan Noodles -->
+                <div class="menu-card" data-category="noodles">
+                    <div class="card-img-wrapper">
+                        <img src="images/Spicy Dan Dan Noodles.webp" alt="Spicy Dan Dan Noodles" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag">Signature</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Spicy Dan Dan Noodles</h3>
+                            <span class="card-price">₹549</span>
+                        </div>
+                        <p class="card-desc">Sichuan wheat noodles, ground pork, spiced chili oil sauce, preserved vegetables, chopped peanuts.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary btn-sm add-to-cart-quick" data-id="dan-dan" data-name="Spicy Dan Dan Noodles" data-price="549">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Grilled Robata Skewers -->
+                <div class="menu-card" data-category="robata">
+                    <div class="card-img-wrapper">
+                        <img src="images/Grilled Robata Skewers.webp" alt="Grilled Skewers" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag">Charcoal Grilled</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Grilled Robata Skewers</h3>
+                            <span class="card-price">₹599</span>
+                        </div>
+                        <p class="card-desc">Tender chicken breast and scallion skewers, charcoal-grilled over premium Japanese binchotan.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary btn-sm add-to-cart-quick" data-id="yakitori" data-name="Grilled Robata Skewers" data-price="599">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Szechuan Ramen -->
+                <div class="menu-card" data-category="noodles">
+                    <div class="card-img-wrapper">
+                        <img src="images/Szechuan Ramen.webp" alt="Szechuan Ramen" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag">Hot & Spicy</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Szechuan Ramen</h3>
+                            <span class="card-price">₹649</span>
+                        </div>
+                        <p class="card-desc">Wheat noodles in spicy Szechuan broth, tender braised beef flank, bok choy, soy-marinated soft egg.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary btn-sm add-to-cart-quick" data-id="ramen" data-name="Szechuan Beef Ramen" data-price="649">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Korean Fried Chicken (Customizable Modal trigger) -->
+                <div class="menu-card highlight" data-category="all">
+                    <div class="card-img-wrapper">
+                        <img src="images/Korean Fried Chicken.webp" alt="Korean Fried Chicken" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag tag-accent">Best Seller</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Korean Fried Chicken</h3>
+                            <span class="card-price">₹649</span>
+                        </div>
+                        <p class="card-desc">Extra crispy double-fried chicken glazed with our signature glossy, sweet & spicy gochujang sauce.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-primary btn-sm open-detail-btn">Customize</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: Grilled Salmon -->
+                <div class="menu-card" data-category="poke">
+                    <div class="card-img-wrapper">
+                        <img src="images/Grilled Salmon.webp" alt="Grilled Salmon" class="card-img" loading="lazy" decoding="async">
+                        <span class="card-tag">Premium Cut</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="menu-card-header">
+                            <h3 class="card-title">Grilled Salmon</h3>
+                            <span class="card-price">₹749</span>
+                        </div>
+                        <p class="card-desc">Glazed Atlantic salmon served over edamame poke rice, fresh avocado, pickled ginger, teriyaki drizzle.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-secondary btn-sm add-to-cart-quick" data-id="salmon" data-name="Pan-Asian Grilled Salmon" data-price="749">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       Our Story Section
+       ========================================================================== -->
+    <section id="story" class="story-section fade-section">
+        <div class="story-inner">
+            <!-- LEFT: Image -->
+            <div class="story-img-wrapper">
+                <img src="images/story (1).webp" alt="Eateria Sushi" loading="lazy" decoding="async">
+            </div>
+
+            <!-- RIGHT: Content -->
+            <div class="story-content">
+                <p class="story-eyebrow">INSIDE EATERIA</p>
+                <h2 class="story-title serif">
+                    Our Culinary <br>
+                    <span class="accent-color">Concept</span>
+                </h2>
+                <p class="story-text">
+                    Eateria is an immersive dark-themed culinary experience nestled in Hyderabad, India.
+                    We bring together vibrant Pan-Asian fusion recipes designed to be enjoyed under moody,
+                    ambient lighting or delivered fresh to your doorstep in 30 minutes.
+                </p>
+                <p class="story-text">
+                    Our open kitchens combine ancient binchotan charcoal grilling with modern wok mastery,
+                    crafting high-contrast dishes that are as visually dramatic as they are delicious.
+                </p>
+                <div class="story-features">
+                    OPEN KITCHEN • LIVE. HONEST. <br><br>
+                    30 MIN DELIVERY • FAST. FRESH. <br><br>
+                    PAN-ASIAN FUSION • BOLD. VIBRANT.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       Reservation Section (Expectations, Cancellation Policies & Rounded Times Grid)
+       ========================================================================== -->
+    <section id="reservations" class="reservation-section fade-section">
+        <div class="reservation-background"></div>
+        <div class="reservation-container">
+            <div class="reservation-grid">
+                
+                <!-- Left Details / Expectation & Policies -->
+                <div class="experience-card">
+                    <div class="neon-glow-container">
+                        <div style="margin-bottom: 20px; border-radius: var(--radius-lg); overflow: hidden; border: var(--border-subtle);">
+                            <img src="images/EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE.webp" alt="Luxury Plating Expectation" loading="lazy" decoding="async">
+                        </div>
+                        <span class="neon-tag">What to expect</span>
+                        <h2 class="exp-title serif">The Dining Immersive</h2>
+                        
+                        <div class="experience-list">
+                            <div class="experience-item">
+                                <div class="experience-icon">✦</div>
+                                <div class="experience-content">
+                                    <h4>Modern interior with neon accents</h4>
+                                    <p>Immersive moody dark room with deep-house curated acoustics.</p>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-icon">◈</div>
+                                <div class="experience-content">
+                                    <h4>Full bar & Asian spirits</h4>
+                                    <p>Signature sake infusion mixes, high-end highballs, and spirits.</p>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-icon">❤</div>
+                                <div class="experience-content">
+                                    <h4>Dates & Celebrations</h4>
+                                    <p>Tailored booth seat structures, perfect for private dining or business meetups.</p>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-icon">♫</div>
+                                <div class="experience-content">
+                                    <h4>Live DJ on weekends</h4>
+                                    <p>Curated modern background house tunes setting the stage every Friday and Saturday.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cancellation Policy alert box -->
+                        <div class="policy-alert-box" style="margin-top: 36px; padding: 20px; background: rgba(255, 255, 255, 0.02); border-left: 3px solid var(--color-accent); border-radius: var(--radius-sm); border-top: var(--border-subtle); border-bottom: var(--border-subtle); border-right: var(--border-subtle);">
+                            <h4 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-accent); margin-bottom: 8px;">Cancellation Policy</h4>
+                            <p style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.5; font-weight: 300;">
+                                Free cancellation up to 2 hours before your reservation. Please call us if you need to make changes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form / Occasions & Special Requests -->
+                <div class="reservation-form-container glass-card">
+                    <h2 class="form-title serif">Reserve Your <span class="accent-color">Table</span></h2>
+                    <p class="form-desc">Book your space in our immersive, mood-lit dining sanctuary.</p>
+                    
+                    <form id="booking-form" class="booking-form">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Your Name Here" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone *</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+91 1234-567890" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" name="date" required lang="en-IN">
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Guests</label>
+                                <select id="guests" name="guests">
+                                    <option value="1 Person">1 Person</option>
+                                    <option value="2 People" selected>2 People</option>
+                                    <option value="3 People">3 People</option>
+                                    <option value="4 People">4 People</option>
+                                    <option value="5+ People">5+ People</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 4x4 Time Slot Grid -->
+                        <div class="form-group">
+                            <label>Time Slot</label>
+                            <div class="time-slots">
+                                <button type="button" class="time-slot">12:00 PM</button>
+                                <button type="button" class="time-slot">12:30 PM</button>
+                                <button type="button" class="time-slot">1:00 PM</button>
+                                <button type="button" class="time-slot">1:30 PM</button>
+                                <button type="button" class="time-slot">2:00 PM</button>
+                                <button type="button" class="time-slot">2:30 PM</button>
+                                <button type="button" class="time-slot" data-time="19:00">7:00 PM</button>
+                                <button type="button" class="time-slot">7:30 PM</button>
+                                <button type="button" class="time-slot">8:00 PM</button>
+                                <button type="button" class="time-slot">8:30 PM</button>
+                                <button type="button" class="time-slot">9:00 PM</button>
+                                <button type="button" class="time-slot">9:30 PM</button>
+                                <button type="button" class="time-slot">10:00 PM</button>
+                                <button type="button" class="time-slot">10:30 PM</button>
+                                <button type="button" class="time-slot">11:00 PM</button>
+                                <button type="button" class="time-slot">11:30 PM</button>
+                            </div>
+                        </div>
+
+                        <!-- Occasions and Requests -->
+                        <div class="form-group">
+                            <label for="occasion">Select Occasion (Optional)</label>
+                            <input type="text" id="occasion" name="occasion" placeholder="Birthday, Anniversary, Business...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="requests">Special Requests (Optional)</label>
+                            <textarea id="requests" name="requests" rows="3" placeholder="Dietary restrictions, preferred seating, decorations..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            ✓ Confirm Reservation
+                        </button>
+                        
+                        <p style="font-size: 0.75rem; text-align: center; color: var(--color-text-muted); margin-top: 8px;">
+                            By confirming, you agree to our cancellation policy
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       Get In Touch Section
+       ========================================================================== -->
+    <section id="contact" class="menu-section fade-section" style="background-color: #030303; position: relative; z-index: 1;">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title serif">Get In <span class="accent-color">Touch</span></h2>
+                <p class="section-desc">We're here to help. Reach out anytime!</p>
+            </div>
+
+            <!-- Get In Touch vertical cards grid -->
+            <div class="footer-cards">
+                <a href="tel:+919876543210" class="contact-card glass-card">
+                    <div class="contact-row">
+                                <div class="contact-icon" title="Call">
+                                    <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2 4.11 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12 1.02.44 2.03.96 2.94.34.6.25 1.34-.21 1.8l-2.2 2.2a16.87 16.87 0 0 0 6 6l2.2-2.2c.46-.46 1.2-.55 1.8-.21.91.52 1.92.84 2.94.96A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                </div>
+                        <div class="contact-content">
+                            <h4>Call Us</h4>
+                            <p class="contact-strong">+91 98765-43210</p>
+                            <p class="contact-sub">Available 12 PM - 2 AM</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/919876543210" class="contact-card glass-card" target="_blank">
+                    <div class="contact-row">
+                        <div class="contact-icon">
+                            <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="contact-content">
+                            <h4>WhatsApp</h4>
+                            <p class="contact-strong">+91 98765-43210</p>
+                            <p class="contact-sub">Quick responses guaranteed</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="mailto:thepyraxis@gmail.com" class="contact-card glass-card">
+                    <div class="contact-row">
+                        <div class="contact-icon">
+                            <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <div class="contact-content">
+                            <h4>Email Us</h4>
+                            <p class="contact-strong">thepyraxis@gmail.com</p>
+                            <p class="contact-sub">We'll reply within 24 hours</p>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="contact-card glass-card">
+                    <div class="contact-row">
+                        <div class="contact-icon">
+                            <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                        </div>
+                        <div class="contact-content">
+                            <h4>Visit Us</h4>
+                            <p class="contact-strong">Jubilee Hills, Hyderabad</p>
+                            <p class="contact-sub">Road 42, Jubilee Hills, Hyderabad 500033, India</p>
+                             <a href="https://maps.google.com"
+   target="_blank"
+   class="btn btn-outline btn-sm"
+   style="display: inline-flex; margin-top:8px;">
+                                Open in Google Maps
+                            </a>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- ==========================================================================
+       Product Customize Modal
+       ========================================================================== -->
+    <div class="modal" id="detail-modal">
+        <div class="modal-overlay" id="modal-close-overlay"></div>
+        <div class="modal-content glass-card">
+            <button class="modal-close" id="modal-close-btn" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-grid">
+                <div class="modal-img-container">
+                    <img src="images/Korean Fried Chicken.webp" alt="Korean Fried Chicken Details" class="modal-img" loading="lazy" decoding="async">
+                </div>
+                
+                <div class="modal-info">
+                    <span class="modal-tag">Best Seller</span>
+                    <h2 class="modal-title serif">Korean Fried Chicken</h2>
+                    <div class="modal-price">₹649</div>
+                    <p class="modal-desc">
+                        Our premium twice-fried recipe yields an incredibly shatteringly-crisp crust that stays crunchy while glazed with our signature sticky sweet-chili gochujang.
+                    </p>
+                    
+                    <form id="product-options-form">
+                        <!-- Spice Level Modifier -->
+                        <div class="option-group">
+                            <span class="option-label">Choose Spice Level</span>
+                            <div class="option-selector">
+                                <label class="option-pill">
+                                    <input type="radio" name="spice-level" value="mild">
+                                    <span>Mild</span>
+                                </label>
+                                <label class="option-pill">
+                                    <input type="radio" name="spice-level" value="medium" checked>
+                                    <span>Medium</span>
+                                </label>
+                                <label class="option-pill">
+                                    <input type="radio" name="spice-level" value="hot">
+                                    <span>Hot</span>
+                                </label>
+                                <label class="option-pill">
+                                    <input type="radio" name="spice-level" value="extra-hot">
+                                    <span>Extra Hot (+₹30)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Add-ons Multi-checkboxes (Match mockup 5) -->
+                        <div class="option-group">
+                            <span class="option-label">Select Add-ons (Optional)</span>
+                            <div class="checkbox-selector">
+                                <label class="check-pill">
+                                    <input type="checkbox" name="addons" value="extra-sauce" data-price="50">
+                                    <span>
+                                        <span class="title">Extra Sauce</span>
+                                        <span class="price">+₹50</span>
+                                    </span>
+                                </label>
+                                <label class="check-pill">
+                                    <input type="checkbox" name="addons" value="avocado" data-price="120">
+                                    <span>
+                                        <span class="title">Add Avocado</span>
+                                        <span class="price">+₹120</span>
+                                    </span>
+                                </label>
+                                <label class="check-pill">
+                                    <input type="checkbox" name="addons" value="extra-protein" data-price="250">
+                                    <span>
+                                        <span class="title">Extra Protein</span>
+                                        <span class="price">+₹250</span>
+                                    </span>
+                                </label>
+                                <label class="check-pill">
+                                    <input type="checkbox" name="addons" value="side-rice" data-price="100">
+                                    <span>
+                                        <span class="title">Side Rice</span>
+                                        <span class="price">+₹100</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Bottom controls -->
+                        <div class="modal-footer">
+                            <div class="quantity-controller">
+                                <button type="button" class="qty-btn" id="qty-minus">-</button>
+                                <input type="number" id="qty-val" value="1" readonly>
+                                <button type="button" class="qty-btn" id="qty-plus">+</button>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" id="modal-submit-btn">
+                                Add to Cart • ₹649
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ==========================================================================
+   Footer Brand & Copyright
+   ========================================================================== -->
+<footer class="footer" id="footer-section">
+    <div class="footer-container">
+
+        <div class="footer-bottom">
+
+            <!-- Brand -->
+            <div class="footer-brand">
+                <a href="#home" class="logo">
+                    E<span class="accent">ATERIA</span>
+                </a>
+
+                <p class="tagline" style="line-height: 1.6; margin-top: 15px;">
+                    EATERIA — Contemporary Pan-Asian fusion dining crafted for both the table and the doorstep. 
+                    Same kitchen, same chef — whether you're on the couch or in our booth.
+                </p>
+
+                <!-- Social Icons -->
+                <div class="footer-socials">
+
+                    <!-- Facebook -->
+                    <a href="https://facebook.com"
+                       target="_blank"
+                       class="footer-social-link"
+                       aria-label="Facebook">
+                        <i class="fab fa-facebook-f icon icon-md"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://instagram.com"
+                       target="_blank"
+                       class="footer-social-link"
+                       aria-label="Instagram">
+
+                        <i class="fab fa-instagram icon icon-md"></i>
+                    </a>
+
+                    <!-- Twitter / X -->
+                    <a href="https://twitter.com"
+                       target="_blank"
+                       class="footer-social-link"
+                       aria-label="Twitter">
+                        <i class="fab fa-twitter icon icon-md"></i>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://linkedin.com"
+                       target="_blank"
+                       class="footer-social-link"
+                       aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in icon icon-md"></i>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+
+                <div class="links-group">
+                    <h5>Services</h5>
+
+                    <a href="#menu">Order Online</a>
+                    <a href="#reservations">Reserve a Table</a>
+                    <a href="#story">Our Story</a>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <p class="copyright">
+            © 2026 Pyraxis. All rights reserved. · 
+            <a href="mailto:thepyraxis@gmail.com" style="color: inherit; opacity: 0.7;">thepyraxis@gmail.com</a>
+        </p>
+
+    </div>
+</footer>
+
+<!-- ==========================================================================
+       Cart Side-Drawer Panel
+       ========================================================================== --> 
+    <div class="cart-drawer-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-drawer-header">
+            <h3>Your Cravings <span class="accent">(<span id="cart-drawer-count">0</span>)</span></h3>
+            <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">&times;</button>
+        </div>
+        
+        <div class="cart-drawer-body" id="cart-items-container">
+            <!-- Dynamic Cart Items go here -->
+            <div class="cart-item" data-id="spicy-tuna">
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">Spicy Tuna Roll</h4>
+                    <p class="cart-item-price">₹499</p>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="cart-qty-btn minus" data-id="spicy-tuna">-</button>
+                    <span class="cart-qty-val">1</span>
+                    <button class="cart-qty-btn plus" data-id="spicy-tuna">+</button>
+                    <button class="cart-item-remove" data-id="spicy-tuna" aria-label="Remove item">🗑️</button>
+                </div>
+            </div>
+            
+            <div class="cart-item" data-id="yakitori">
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">Grilled Robata Skewers</h4>
+                    <p class="cart-item-price">₹599</p>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="cart-qty-btn minus" data-id="yakitori">-</button>
+                    <span class="cart-qty-val">1</span>
+                    <button class="cart-qty-btn plus" data-id="yakitori">+</button>
+                    <button class="cart-item-remove" data-id="yakitori" aria-label="Remove item">🗑️</button>
+                </div>
+            </div>
+            
+            <div class="cart-item" data-id="korean-chicken">
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title">Korean Fried Chicken</h4>
+                    <p class="cart-item-price">₹649</p>
+                </div>
+                <div class="cart-item-controls">
+                    <button class="cart-qty-btn minus" data-id="korean-chicken">-</button>
+                    <span class="cart-qty-val">1</span>
+                    <button class="cart-qty-btn plus" data-id="korean-chicken">+</button>
+                    <button class="cart-item-remove" data-id="korean-chicken" aria-label="Remove item">🗑️</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-drawer-footer">
+            <div class="cart-summary-row">
+                <span>Subtotal</span>
+                <span id="cart-drawer-subtotal">₹1747</span>
+            </div>
+            <div class="cart-delivery-info">
+                <span><i class="fas fa-fire" style="margin-right: 6px;"></i> Free delivery active!</span>
+            </div>
+            <button class="btn btn-primary w-100" id="cart-checkout-btn">
+                ✓ Checkout Now • <span id="cart-btn-total">₹1747</span>
+            </button>
+        </div>
+    </div>
+
+
+
+
+    <!-- ==========================================================================
+       Payment Checkout Modal
+       ========================================================================== -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-close-overlay" id="payment-close-overlay"></div>
+        <div class="modal-container payment-container">
+            <button class="modal-close-btn" id="payment-close-btn" aria-label="Close modal">&times;</button>
+            
+            <div class="payment-header">
+                <div class="payment-badge">SECURE CHECKOUT</div>
+                <h2>Complete Payment</h2>
+                <p class="subtitle">Complete your transaction to dispatch your cravings</p>
+            </div>
+            
+            <div class="payment-summary-box">
+                <div class="summary-line">
+                    <span>Order Subtotal</span>
+                    <span id="payment-subtotal">₹1747</span>
+                </div>
+                <div class="summary-line">
+                    <span>Delivery Charge</span>
+                    <span class="free-text">FREE</span>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-line total">
+                    <span>Total Payable</span>
+                    <span id="payment-total">₹1747</span>
+                </div>
+            </div>
+            
+            <form id="payment-form">
+                <div class="payment-methods">
+                    <label class="payment-method active" id="label-upi">
+                        <input type="radio" name="payment-option" value="upi" checked>
+                        <span class="method-icon">📱</span>
+                        <span class="method-details">
+                            <strong>UPI (GPay / PhonePe / Paytm)</strong>
+                            <span class="subtext">Instant refund eligible</span>
+                        </span>
+                    </label>
+                    
+                    <label class="payment-method" id="label-card">
+                        <input type="radio" name="payment-option" value="card">
+                        <span class="method-icon">💳</span>
+                        <span class="method-details">
+                            <strong>Credit / Debit Card</strong>
+                            <span class="subtext">Visa, Mastercard, RuPay</span>
+                        </span>
+                    </label>
+                    
+                    <label class="payment-method" id="label-cod">
+                        <input type="radio" name="payment-option" value="cod">
+                        <span class="method-icon">💵</span>
+                        <span class="method-details">
+                            <strong>Cash on Delivery (COD)</strong>
+                            <span class="subtext">Pay on arrival at your table</span>
+                        </span>
+                    </label>
+                </div>
+                
+                <!-- Dynamic Fields Container -->
+                <div class="payment-fields-wrapper">
+                    <!-- UPI Fields -->
+                    <div class="payment-fields active" id="fields-upi">
+                        <div class="form-group">
+                            <label for="upi-id">Enter UPI ID *</label>
+                            <input type="text" id="upi-id" name="upi-id" placeholder="username@okaxis" required>
+                            <p class="helper-text">You will receive a payment request on your UPI app</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Fields -->
+                    <div class="payment-fields" id="fields-card">
+                        <div class="form-group">
+                            <label for="card-number">Card Number *</label>
+                            <input type="text" id="card-number" name="card-number" placeholder="4532 8900 1234 5678" maxlength="19">
+                        </div>
+                        <div class="form-row card-row">
+                            <div class="form-group col-6">
+                                <label for="card-expiry">Expiry Date *</label>
+                                <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="card-cvv">CVV *</label>
+                                <input type="password" id="card-cvv" name="card-cvv" placeholder="•••" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- COD Fields -->
+                    <div class="payment-fields" id="fields-cod">
+                        <div class="cod-alert">
+                            <span class="alert-icon">💡</span>
+                            <p>No extra fees applied. Please keep exact change ready in Indian Rupees (₹) for delivery arrival.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100" id="pay-submit-btn">
+                    🔒 Pay & Confirm Order • <span id="pay-btn-amount">₹1747</span>
+                </button>
+            </form>
+            
+            <!-- Loading overlay inside checkout modal -->
+            <div class="payment-loader" id="payment-loader">
+                <div class="spinner"></div>
+                <h3>Processing Secure Payment...</h3>
+                <p>Verifying secure transaction details with Indian banking servers</p>
+            </div>
+        </div>
+    </div>
+
+ <!-- ==========================================================================
+       Track Order Modal Dialog
+       ========================================================================== -->
+       
+    <div class="modal" id="tracker-modal">
+        <div class="modal-overlay" id="tracker-close-overlay"></div>
+        <div class="modal-content tracking-container glass-card">
+            <button class="modal-close-btn" id="tracker-close-btn" aria-label="Close tracking dialog">&times;</button>
+            
+            <div class="tracking-header">
+                <div class="tracking-badge">LIVE TRACKING</div>
+                <h2>Order #98421</h2>
+                <div class="tracking-meta">2 Items • ₹840 • Paid via UPI</div>
+                <p class="subtitle">En route to Jubilee Hills, Hyderabad</p>
+            </div>
+            
+            <div class="tracking-map-wrapper">
+                <!-- MAP BACKGROUND -->
+                <img
+                    src="images/ef759a90-3226-43c5-b793-ccbfe0e69030.webp"
+                    alt="Map Background"
+                    class="tracking-map-bg"
+                    loading="lazy"
+                    decoding="async"
+                />
+
+                <div class="tracking-map">
+                    <!-- Kitchen Node -->
+                    <div class="location-card node-kitchen">
+                        <div class="icon">🍽️</div> 
+                        <h3>Eateria<br>Kitchen</h3>
+                        <p>Preparing your food</p>
+                    </div>
+                    
+                    <!-- Curved Route SVG -->
+                    <div class="tracking-route-svg">
+                        <svg viewBox="0 0 1200 220" preserveAspectRatio="none" overflow="hidden">
+                            <!-- Waypoint dots on the COMPLETED route -->
+                            <circle cx="285" cy="105" r="10" fill="rgba(244,100,100,0.35)"/>
+                            <circle cx="285" cy="105" r="6" fill="#f47070"/>
+
+                            <circle cx="455" cy="118" r="10" fill="rgba(244,100,100,0.35)"/>
+                            <circle cx="455" cy="118" r="6" fill="#f47070"/>
+
+                            <!-- Grey dot near destination -->
+                            <circle cx="980" cy="118" r="10" fill="rgba(120,120,120,0.35)"/>
+                            <circle cx="980" cy="118" r="6" fill="#666"/>
+
+                            <!-- RESTORED: Static line from Kitchen to the 2nd Dot -->
+                            <path d="M154,120 C185,135 230,70 285,105 S390,155 455,118" fill="none" stroke="#f47070" stroke-width="3" stroke-dasharray="12 7"/>
+
+                            <!-- COMPLETED ROUTE (red dashed) -->
+                            <path class="route-completed" d="M455,118 S560,72 635,98 S735,150 810,120"/>
+
+                            <!-- PENDING ROUTE (grey dashed) -->
+                            <path class="route-pending" d="M810,120 C885,88 930,92 980,118 C1015,135 1048,118 1053,115"/>
+                        </svg>
+                    </div>
+                    <!-- Rider scooter image -->
+                    <img src="images/d323dc85-b17b-40db-b464-43229783fe6a(1).png" class="rider-scooter" id="rider-scooter" alt="Rider Scooter" loading="lazy" decoding="async"/>
+
+                    <!-- Destination Node -->
+                    <div class="location-card node-destination">
+                        <div class="icon">🏠</div>
+                        <h3>Your Table</h3>
+                        <p>Almost there!</p>
+                    </div>
+                    <div class="rider-stop-dot" id="rider-stop-dot"></div>
+                </div>
+            </div>
+            
+            <!-- Delivery Status Info -->
+            <div class="tracking-status-bar">
+                <div class="status-pulse-dot"></div>
+                <div class="status-info">
+                    <span class="status-label">Out for Delivery</span>
+                    <span class="status-eta">• Arriving in 12 mins</span>
+                </div>
+            </div>
+
+            <div class="tracking-timeline">
+
+                <div class="timeline-item completed" data-step="1">
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+                        <div class="timeline-text">
+                            <h5>Order Placed</h5>
+                            <p>Accepted — 16:15</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item completed" data-step="2">
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+                        <div class="timeline-text">
+                            <h5>Preparing</h5>
+                            <p>Chef is preparing your dishes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item completed" data-step="3">
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+                        <div class="timeline-text">
+                            <h5>Out for Delivery</h5>
+                            <p>Rider departed — 16:28</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-step="4">
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+                        <div class="timeline-text">
+                            <h5>Arriving Soon</h5>
+                            <p>Estimated arrival in 12 mins</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- DELIVERY PARTNER -->
+            <div class="delivery-partner-card">
+                <!-- Profile -->
+                <div class="partner-left"> 
+                    <div class="partner-avatar">
+                        <img src="images/eateria_delivery_partner_optimized(1).webp" alt="Rahul Sharma" loading="lazy" decoding="async">
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="partner-info">
+                        <h3>Rahul Sharma</h3>
+                        <p class="rating">
+                            4.9 ★ • Delivery Partner
+                        </p>
+                        <span class="arrival-time">Arriving in 12 mins</span>
+                    </div>
+                </div>
+
+                <!-- Call Button -->
+                <a href="tel:+919876543210" class="call-btn call-rider-btn" id="call-rider-btn">
+                    Call Rider
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io Client -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- Custom Interactivity Script -->
+    <script src="script.js" defer></script>
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>
