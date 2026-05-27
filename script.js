@@ -1,4 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Dismiss Global Loader
+    const loader = document.getElementById('app-loader');
+    // If the inline script in index.html already hid the loader, skip the delay
+    if (loader && loader.style.display !== 'none') {
+        // Only show the premium intro once per session to keep navigation fast
+        const hasSeenIntro = sessionStorage.getItem('eateria_intro_played');
+
+        if (hasSeenIntro) {
+            // Instant transition for returning users
+            loader.style.display = 'none';
+            loader.remove();
+            document.body.classList.remove('loading');
+        } else {
+            // Cinematic hold for the first visit
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 600);
+                document.body.classList.remove('loading');
+                sessionStorage.setItem('eateria_intro_played', 'true');
+            }, 1200); // Matches the peak of the CSS animation
+        }
+    }
 
     const checkIsMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
@@ -80,16 +102,18 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Order Status Fetch Error:", error);
         }
     }
-    getOrderStatus();
 
     // Initialize Real-time Tracking Socket
-    // Point the socket to your Render backend URL
-    const socket = typeof io !== 'undefined' ? io(API_URL) : null;
-    if (socket) {
-        socket.on('orderUpdate', (data) => {
-            showToast(`Order Status: ${data.status}`);
-        });
-    }
+    // Move backend connectivity to happen after the UI has settled
+    window.addEventListener('load', () => {
+        getOrderStatus();
+        const socket = typeof io !== 'undefined' ? io(API_URL) : null;
+        if (socket) {
+            socket.on('orderUpdate', (data) => {
+                showToast(`Order Status: ${data.status}`);
+            });
+        }
+    });
 
     /* ==========================================================================
        1. Mobile Navigation Menu Toggle
@@ -216,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             ticking = true;
         }
-    });
+    }, { passive: true });
 
     /* ==========================================================================
        3. Intersection Observer for Active Link Highlights

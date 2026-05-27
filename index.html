@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-IN" style="background: #000;">
+<html lang="en-IN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -20,10 +20,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Preload Hero Videos based on device and orientation to prevent black borders -->
-    <link rel="preload" as="video" href="assets/123456.mp4" media="(min-width: 769px), (orientation: landscape)" type="video/mp4">
-    <link rel="preload" as="video" href="assets/7890.mp4" media="(max-width: 768px) and (orientation: portrait)" type="video/mp4">
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -32,6 +28,11 @@
 
     <style>
         /* Mobile UI Refinements for Modals */
+        :root {
+            background-color: #000;
+        }
+        body { background: #000; color: #fff; }
+
         @media (max-width: 768px) {
             /* Fix 1 & 3: Lowering and Styling the Exit Buttons */
             #tracker-close-btn, 
@@ -69,7 +70,27 @@
         }
     </style>
 </head>
-<body>
+<body class="loading">
+    <!-- Simple Loader Overlay -->
+    <div id="app-loader" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;">
+        <div class="loader-branding" style="color: #F4A7A4; font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 1.2rem; font-weight: 700; text-transform: uppercase; animation: premiumReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; margin-right: -1.2rem;">
+            <span style="color: #fff;">E</span>ATERIA
+        </div>
+    </div>
+    <script>
+        // Instant check to prevent "flash" for returning users
+        if (sessionStorage.getItem('eateria_intro_played')) {
+            document.getElementById('app-loader').style.display = 'none';
+            document.body.classList.remove('loading');
+        }
+    </script>
+    <style>
+        @keyframes premiumReveal {
+            0% { opacity: 0; letter-spacing: 0.4rem; filter: blur(20px); transform: scale(0.85); }
+            100% { opacity: 1; letter-spacing: 1.2rem; filter: blur(0px); transform: scale(1); }
+        }
+        body.loading { overflow: hidden !important; }
+    </style>
 
     <!-- ==========================================================================
        Header 
@@ -116,7 +137,7 @@
     <main id="main-content">
     <section id="home" class="intro-section">
     <!-- Fullscreen video background -->
-    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp">
+    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.webp">
         <!-- Source assigned via optimized JS in script.js to prevent flickering -->
     </video>
 

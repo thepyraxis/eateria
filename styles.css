@@ -562,8 +562,8 @@ svg.icon { width: 18px; height: 18px; }
     object-fit: cover !important;
     z-index: 0; /* Ensures video is visible above the section background */
     filter: brightness(0.65); /* Decreased brightness for a 10% less white appearance */
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
+    opacity: 1; /* Show the poster immediately */
+    transition: opacity 0.6s ease-in-out;
     will-change: opacity;
 }
 
@@ -579,7 +579,7 @@ svg.icon { width: 18px; height: 18px; }
     padding: 0 24px;
     text-align: center;
     transform-style: preserve-3d;
-    animation: cinematicEntrance 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: cinematicEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     will-change: transform;
     backface-visibility: hidden;
 }
