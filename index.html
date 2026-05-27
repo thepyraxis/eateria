@@ -29,6 +29,27 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css?v=2.8">
+
+    <style>
+        /* Mobile UI Refinements for Modals */
+        @media (max-width: 768px) {
+            /* Fix 1 & 3: Lowering the Exit Buttons */
+            #tracker-close-btn, 
+            #payment-close-btn {
+                top: 20px !important;
+            }
+
+            /* Fix 2 & 4: Fixing bottom edge contact and visibility */
+            .tracking-container, 
+            .payment-container {
+                padding-bottom: 32px !important;
+            }
+            .delivery-partner-card, 
+            #pay-submit-btn {
+                margin-bottom: 8px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
