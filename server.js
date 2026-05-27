@@ -129,22 +129,20 @@ app.post('/api/reservations', [
     body('email').isEmail().normalizeEmail(),
     body('date').isISO8601(),
     body('guests').isInt({ min: 1, max: 20 })
-], (req, res) => {
+], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const newReservation = new Reservation(req.body);
-
-    newReservation.save()
-        .then(savedDoc => {
-            res.status(201).json({ message: 'Reservation successful', data: savedDoc });
-        })
-        .catch(err => {
-            console.error('Reservation Error:', err);
-            res.status(500).json({ message: 'Database Error', error: err });
-        });
+    try {
+        const newReservation = new Reservation(req.body);
+        const savedDoc = await newReservation.save();
+        res.status(201).json({ message: 'Reservation successful', data: savedDoc });
+    } catch (err) {
+        console.error('Reservation Error:', err);
+        res.status(500).json({ message: 'Database Error', error: err });
+    }
 });
 
 // ==========================================

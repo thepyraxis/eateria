@@ -68,6 +68,13 @@ body {
     -webkit-user-select: none; /* Safari support */
 }
 
+/* Prevent background scrolling when overlays are active */
+html.no-scroll,
+body.no-scroll {
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
 /* Allow selection in form inputs so users can still type and edit */
 input, textarea, select, [contenteditable="true"] {
     user-select: text;
@@ -159,6 +166,10 @@ img {
 .btn-block {
     display: flex;
     width: 100%;
+}
+
+.w-100 {
+    width: 100% !important;
 }
 
 .btn-primary {
@@ -1818,7 +1829,7 @@ svg.icon { width: 18px; height: 18px; }
         align-items: center;
         justify-content: center;
         gap: 32px;
-        overflow: hidden;
+        overflow-y: auto;
         visibility: hidden;
         opacity: 0;
         transform: translateY(-20px);
@@ -2164,7 +2175,7 @@ svg.icon { width: 18px; height: 18px; }
     max-width:650px;
     min-height:auto;
     padding: 32px;
-
+    overflow-y: auto;
     border-radius:32px;
     background: linear-gradient(180deg, rgba(18, 18, 18, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
 
@@ -2176,7 +2187,6 @@ svg.icon { width: 18px; height: 18px; }
         0 40px 120px rgba(0,0,0,0.9),
         inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 
-    overflow:hidden;
 }
 
 /* =========================================================
@@ -2665,6 +2675,7 @@ svg.icon { width: 18px; height: 18px; }
     padding: 32px !important;
     position: relative;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .payment-header {
@@ -2813,7 +2824,22 @@ svg.icon { width: 18px; height: 18px; }
 }
 
 .method-icon {
-    font-size: 1.3rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+}
+
+.payment-method.active .method-icon {
+    background: rgba(var(--color-accent-rgb), 0.08);
+    border-color: rgba(var(--color-accent-rgb), 0.2);
+    color: var(--color-accent);
 }
 
 .method-details {
@@ -2863,7 +2889,8 @@ svg.icon { width: 18px; height: 18px; }
 }
 
 .cod-alert .alert-icon {
-    font-size: 1.3rem;
+    color: var(--color-accent);
+    flex-shrink: 0;
 }
 
 .cod-alert p {
@@ -3972,4 +3999,9 @@ div,
         transform: none !important;
         perspective: none !important;
     }
+}
+
+#pay-submit-btn {
+    display: flex;
+    margin: 0 auto;
 }

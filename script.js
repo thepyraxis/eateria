@@ -28,10 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
        UTILITIES: Custom Toast Notification System & Debounce
        (Moved to top to prevent Temporal Dead Zone issues)
        ========================================================================== */
+    const toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container';
+    body.appendChild(toastContainer);
+
     const showToast = (message, type = 'success') => {
         const toast = document.createElement('div');
         toast.className = `toast-notification ${type}`;
         
+        // Ensure only one toast shows at a time or they stack nicely
+        if (toastContainer.children.length > 2) {
+            toastContainer.removeChild(toastContainer.firstChild);
+        }
+
         const icon = document.createElement('span');
         icon.className = 'toast-icon';
         icon.textContent = type === 'success' ? '✓' : 'ℹ';
@@ -42,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         toast.appendChild(icon);
         toast.appendChild(msgSpan);
-        body.appendChild(toast);
+        toastContainer.appendChild(toast);
 
         setTimeout(() => {
             toast.classList.add('fade-out');
@@ -102,8 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close menu when a link is clicked
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenuToggle.classList.remove('open');
-                navMenu.classList.remove('open');
+                closeModal(navMenu);
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');
             });
         });
@@ -135,9 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let ticking = false;
 
     const updateBodyScrollLock = () => {
-        const hasOpenModal = !!document.querySelector('.modal.open');
-        const hasOpenDrawer = cartDrawer && cartDrawer.classList.contains('open');
-        document.body.style.overflow = (hasOpenModal || hasOpenDrawer) ? 'hidden' : '';
+        // Lock background scroll for Tracking, Cart, Payment, and Mobile Menu
+        const isTrackerOpen = trackerModal?.classList.contains('open');
+        const isPaymentOpen = paymentModal?.classList.contains('open');
+        const isCartOpen = cartDrawer?.classList.contains('open');
+        const isMenuOpen = navMenu?.classList.contains('open');
+        const isLocked = isTrackerOpen || isPaymentOpen || isCartOpen || isMenuOpen;
+        
+        document.documentElement.classList.toggle('no-scroll', isLocked);
+        body.classList.toggle('no-scroll', isLocked);
     };
 
     let activeFocusTrapCleanup = null;
@@ -629,9 +643,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="cart-qty-val">${item.qty}</span>
                             <button class="cart-qty-btn plus" data-id="${item.id}" aria-label="Increase quantity">+</button>
                             <button class="cart-item-remove" data-id="${item.id}" aria-label="Remove item">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
                                 </svg>
                             </button>
                         </div>
@@ -1149,21 +1166,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function openModal(element) {
         if (!element) return;
         element.classList.add("open");
+        updateBodyScrollLock();
 
         // Handle internal overlays (like in tracker-modal or detail-modal)
         const overlay = element.querySelector('.modal-overlay');
         if (overlay) overlay.classList.add('open');
 
-        // Handle specific dependencies (like overlays or toggles)
         if (element.id === 'cart-drawer' && cartOverlay) cartOverlay.classList.add('open');
         if (element.id === 'nav-menu' && mobileMenuToggle) mobileMenuToggle.classList.add('open');
 
+        activateFocusTrap(element);
         history.pushState({ modalOpen: true }, "", window.location.href);
     }
 
     function closeModal(element) {
         if (!element) return;
         element.classList.remove("open");
+        updateBodyScrollLock();
 
         // Handle internal overlays
         const overlay = element.querySelector('.modal-overlay');
@@ -1173,7 +1192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (element.id === 'cart-drawer' && cartOverlay) cartOverlay.classList.remove('open');
         if (element.id === 'nav-menu' && mobileMenuToggle) mobileMenuToggle.classList.remove('open');
         
-        updateBodyScrollLock();
+        deactivateFocusTrap();
     }
 
     window.addEventListener("popstate", () => {
@@ -1205,4 +1224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
     });
+
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 });
