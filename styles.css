@@ -841,6 +841,10 @@ svg.icon { width: 18px; height: 18px; }
     flex-grow: 1;
 }
 
+.card-desc {
+    margin-bottom: 24px;
+}
+
 /* Single-Line Title & Price (Mockups Exact Style) */
 .menu-card-header {
     display: flex;
@@ -1458,11 +1462,10 @@ svg.icon { width: 18px; height: 18px; }
     width:42px;
     height:42px;
 
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    background:rgba(255,255,255,0.06);
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
 
     color:rgba(255,255,255,0.72);
 
@@ -1476,29 +1479,24 @@ svg.icon { width: 18px; height: 18px; }
 
     cursor:pointer;
 
-    transition:all 0.25s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    opacity: 0.7;
 
     z-index:20;
-
-    backdrop-filter:blur(10px);
 }
 
 .modal-close-btn:hover{
-
-    background:rgba(255,255,255,0.12);
-
+    background: rgba(255, 255, 255, 0.1);
     color:#ffffff;
-
+    opacity: 1;
     transform:scale(1.06);
-
-    box-shadow:
-        0 0 20px rgba(255,255,255,0.08);
+    box-shadow: none;
 }
 .modal-close {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.05);
+    background: transparent;
     border: none;
     color: var(--color-text-primary);
     width: 48px;
@@ -1510,13 +1508,14 @@ svg.icon { width: 18px; height: 18px; }
     align-items: center;
     justify-content: center;
     z-index: 10;
-    border: var(--border-subtle);
-    transition: var(--transition-fast);
+    box-shadow: none;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    opacity: 0.7;
 }
 
 .modal-close:hover {
-    background-color: var(--color-accent);
-    color: #0A0A0A;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 1;
 }
 
 .modal-grid {
@@ -2015,15 +2014,23 @@ svg.icon { width: 18px; height: 18px; }
 .cart-close-btn {
     background: none;
     border: none;
-    color: var(--color-text-secondary);
-    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.72);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    line-height: 1;
-    transition: var(--transition-fast);
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    opacity: 0.7;
 }
 
 .cart-close-btn:hover {
-    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    opacity: 1;
+    transform: scale(1.06);
 }
 
 .cart-drawer-body {
@@ -3294,7 +3301,7 @@ svg.icon { width: 18px; height: 18px; }
     right: 24px !important;
     width: 52px !important;
     height: 52px !important;
-    border-radius: 18px !important;
+    border-radius: 50% !important;
   }
 
   /* ── TRACKING HEADER ── */

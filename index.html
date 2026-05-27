@@ -33,18 +33,35 @@
     <style>
         /* Mobile UI Refinements for Modals */
         @media (max-width: 768px) {
-            /* Fix 1 & 3: Lowering the Exit Buttons */
+            /* Fix 1 & 3: Lowering and Styling the Exit Buttons */
             #tracker-close-btn, 
-            #payment-close-btn {
+            #payment-close-btn,
+            .modal-close-btn {
                 top: 48px !important;
                 right: 24px !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
             }
 
-            /* Fix 2 & 4: Fixing bottom edge contact and visibility */
-            .tracking-container, 
-            .payment-container {
-                padding-bottom: 32px !important;
+            #tracker-close-btn:hover,
+            #payment-close-btn:hover,
+            .modal-close-btn:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
             }
+
+            /* Fix 2 & 4: Fixing bottom edge visibility and scrolling */
+            .modal-content,
+            .tracking-container,
+            .payment-container {
+                min-height: 100vh !important;
+                height: auto !important;           /* Let content dictate height */
+                padding-bottom: 48px !important;   /* Breathing room at bottom */
+                overflow-y: auto !important;
+            }
+
             .delivery-partner-card, 
             #pay-submit-btn {
                 margin-bottom: 8px !important;
@@ -730,7 +747,9 @@
     <div class="cart-drawer" id="cart-drawer">
         <div class="cart-drawer-header">
             <h3>Your Cravings <span class="accent">(<span id="cart-drawer-count">0</span>)</span></h3>
-            <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">&times;</button>
+            <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+                <i data-lucide="x"></i>
+            </button>
         </div>
         
         <div class="cart-drawer-body" id="cart-items-container">
@@ -822,7 +841,9 @@
     <div class="modal" id="payment-modal">
         <div class="modal-overlay" id="payment-close-overlay"></div>
         <div class="modal-content payment-container">
-            <button class="modal-close-btn" id="payment-close-btn" aria-label="Close modal">&times;</button>
+            <button class="modal-close-btn" id="payment-close-btn" aria-label="Close modal">
+                <i data-lucide="x"></i>
+            </button>
             
             <div class="payment-header">
                 <div class="payment-badge">SECURE CHECKOUT</div>
@@ -958,7 +979,9 @@
     <div class="modal" id="tracker-modal">
         <div class="modal-overlay" id="tracker-close-overlay"></div>
         <div class="modal-content tracking-container glass-card">
-            <button class="modal-close-btn" id="tracker-close-btn" aria-label="Close tracking dialog">&times;</button>
+            <button class="modal-close-btn" id="tracker-close-btn" aria-label="Close tracking dialog">
+                <i data-lucide="x"></i>
+            </button>
             
             <div class="tracking-header">
                 <div class="tracking-badge">LIVE TRACKING</div>
