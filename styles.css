@@ -364,7 +364,7 @@ svg.icon { width: 18px; height: 18px; }
 /* Ensure icons and labels are aligned on small screens */
 @media (max-width: 600px) {
     .hero-actions { display: flex; flex-direction: column; gap: 12px; }
-    .hero-actions .btn-lg { width: 100%; justify-content: flex-start; padding-left: 18px; }
+    .hero-actions .btn-lg { width: 100%; justify-content: center; padding-left: 0; }
 }
 
 .btn-icon {
@@ -580,6 +580,8 @@ svg.icon { width: 18px; height: 18px; }
     text-align: center;
     transform-style: preserve-3d;
     animation: cinematicEntrance 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 @keyframes cinematicEntrance {
@@ -590,6 +592,7 @@ svg.icon { width: 18px; height: 18px; }
     100% {
         opacity: 1;
         transform: translateZ(0) rotateX(0deg);
+            transform: translate3d(0, 0, 0) rotateX(0deg);
     }
 }
 
@@ -601,6 +604,9 @@ svg.icon { width: 18px; height: 18px; }
     padding: 40px 24px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     transform: translateZ(50px); /* Pushes content forward in 3D space */
+    backface-visibility: hidden;
+    will-change: filter; /* Hint to browser for smoother backdrop-filter rendering */
+    -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3284,8 +3290,8 @@ svg.icon { width: 18px; height: 18px; }
   }
 
   .modal-close-btn {
-    top: 28px !important;
-    right: 20px !important;
+    top: 48px !important;
+    right: 24px !important;
     width: 52px !important;
     height: 52px !important;
     border-radius: 18px !important;
