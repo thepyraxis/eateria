@@ -1083,15 +1083,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openTrackerModal = () => {
         if (trackerModal) {
-            // Ensure sources are set for preloaded assets
-            const mapImg = trackerModal.querySelector('.tracking-map-bg');
-            const riderImg = trackerModal.querySelector('.rider-scooter');
-            const partnerImg = trackerModal.querySelector('.partner-avatar img');
-
-            if (mapImg && !mapImg.src) mapImg.src = 'images/ef759a90-3226-43c5-b793-ccbfe0e69030.webp';
-            if (riderImg && !riderImg.src) riderImg.src = 'images/d323dc85-b17b-40db-b464-43229783fe6a(1).png';
-            if (partnerImg && !partnerImg.src) partnerImg.src = 'images/eateria_delivery_partner_optimized(1).webp';
-
             openModal(trackerModal);
             updateBodyScrollLock();
         }
