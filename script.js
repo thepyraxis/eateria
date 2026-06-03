@@ -1,3 +1,40 @@
+// Rule 1: Responsive Video Logic (Execute immediately to prevent black screen)
+const updateHeroVideoSource = () => {
+    const heroVideo = document.getElementById('hero-video');
+    if (!heroVideo) return;
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+
+    // Optimized Selection
+    const targetSrc = (isMobile && isPortrait) ? 'assets/7890.mp4' : 'assets/123456.mp4';
+
+    const currentSrc = heroVideo.querySelector('source') ? heroVideo.querySelector('source').getAttribute('src') : '';
+    
+    if (currentSrc !== targetSrc) {
+        let source = heroVideo.querySelector('source');
+        if (!source) {
+            source = document.createElement('source');
+            heroVideo.appendChild(source);
+        }
+        source.setAttribute('src', targetSrc);
+        heroVideo.load();
+        
+        heroVideo.addEventListener('playing', () => {
+            heroVideo.classList.add('is-playing');
+        }, { once: true });
+
+        heroVideo.play().catch(() => {});
+    }
+};
+
+// Immediate execution
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateHeroVideoSource);
+} else {
+    updateHeroVideoSource();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Dismiss Global Loader
     const loader = document.getElementById('app-loader');
@@ -18,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => loader.remove(), 600);
                 document.body.classList.remove('loading');
                 sessionStorage.setItem('eateria_intro_played', 'true');
-            }, 1200); // Matches the peak of the CSS animation
+            }, 600); // Reduced delay for faster entry
         }
     }
 
@@ -286,38 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.fade-section').forEach(section => {
         scrollRevealObserver.observe(section);
     });
-
-    // Optimized video source management
-    const updateHeroVideoSource = () => {
-        const heroVideo = document.getElementById('hero-video');
-        if (!heroVideo) return;
-
-        const isMobile = checkIsMobile();
-        const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-
-        // If on mobile but in landscape, portrait video (7890.mp4) shows black borders.
-        // We shift to the PC video (123456.mp4) in landscape to ensure a full-screen "cover" fit.
-        const targetSrc = (isMobile && isPortrait) ? 'assets/7890.mp4' : 'assets/123456.mp4';
-
-        // Check current source to prevent unnecessary reloading
-        const currentSrc = heroVideo.getAttribute('src');
-        if (currentSrc !== targetSrc) {
-            heroVideo.setAttribute('src', targetSrc);
-            heroVideo.load();
-            
-            // Smooth fade-in once video is actually playing
-            heroVideo.addEventListener('playing', () => {
-                heroVideo.classList.add('is-playing');
-            }, { once: true });
-
-            heroVideo.play().catch(err => {
-                console.warn("Autoplay prevented:", err);
-            });
-        }
-    };
-
-    // Initial load
-    updateHeroVideoSource();
 
     // Stop background video loop when scrolling to other sections to save resources
     const mainHeroVideo = document.getElementById('hero-video');
@@ -1078,11 +1083,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openTrackerModal = () => {
         if (trackerModal) {
+            // Ensure sources are set for preloaded assets
             const mapImg = trackerModal.querySelector('.tracking-map-bg');
             const riderImg = trackerModal.querySelector('.rider-scooter');
-            // Lazy load tracking assets only when modal is first opened
+            const partnerImg = trackerModal.querySelector('.partner-avatar img');
+
             if (mapImg && !mapImg.src) mapImg.src = 'images/ef759a90-3226-43c5-b793-ccbfe0e69030.webp';
             if (riderImg && !riderImg.src) riderImg.src = 'images/d323dc85-b17b-40db-b464-43229783fe6a(1).png';
+            if (partnerImg && !partnerImg.src) partnerImg.src = 'images/eateria_delivery_partner_optimized(1).webp';
 
             openModal(trackerModal);
             updateBodyScrollLock();
