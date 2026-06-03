@@ -12,7 +12,8 @@
     <link rel="apple-touch-icon" href="images/favicon-180.png">
 
     <!-- Preload Critical Assets for Instant Feel -->
-    <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png" fetchpriority="high" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="assets/cropped_sushi.png" fetchpriority="high" media="(max-width: 768px)">
     <link rel="preload" as="image" href="images/d323dc85-b17b-40db-b464-43229783fe6a(1).png">
     <link rel="preload" as="image" href="images/eateria_delivery_partner_optimized(1).webp">
     <link rel="preload" as="video" href="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)" fetchpriority="high">
@@ -84,8 +85,8 @@
 </head>
 <body class="loading">
     <!-- Simple Loader Overlay -->
-    <div id="app-loader" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;">
-        <div class="loader-branding" style="color: #F4A7A4; font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 1.2rem; font-weight: 700; text-transform: uppercase; animation: premiumReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; margin-right: -1.2rem;">
+    <div id="app-loader" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;">
+        <div class="loader-branding" style="color: #F4A7A4; font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 5vw, 2.5rem); letter-spacing: 1.2rem; font-weight: 700; text-transform: uppercase; animation: premiumReveal 2.0s cubic-bezier(0.16, 1, 0.3, 1) forwards; margin-right: -1.2rem;">
             <span style="color: #fff;">E</span>ATERIA
         </div>
     </div>
@@ -149,9 +150,9 @@
     <main id="main-content">
     <section id="home" class="intro-section">
     <!-- Fullscreen video background -->
-    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp">
-        <source src="assets/7890.mp4" type="video/mp4" media="(max-width: 768px)">
-        <source src="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)">
+    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png" disablePictureInPicture>
+        <source src="assets/7890.mp4" type="video/mp4" media="(max-width: 768px)" fetchpriority="high">
+        <source src="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)" fetchpriority="high">
     </video>
 
     <!-- Optimized Overlay (Replaces CSS filter for performance) -->

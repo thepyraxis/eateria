@@ -2,19 +2,17 @@
 const updateHeroVideoSource = () => {
     const heroVideo = document.getElementById('hero-video');
     if (heroVideo) {
-        // Ensure the video plays. The HTML handles source selection.
-        heroVideo.play().catch(() => {
-            // Autoplay might be blocked; handled by interaction
-        });
-        
-        // If already playing, add class immediately
-        if (!heroVideo.paused) {
+        // Force the browser to start parsing the video sources immediately
+        heroVideo.load();
+
+        // Using 'canplaythrough' ensures the browser predicts it can play the 
+        // whole video without buffering/hanging.
+        heroVideo.addEventListener('canplaythrough', () => {
             heroVideo.classList.add('is-playing');
-        } else {
-            heroVideo.addEventListener('playing', () => {
-                heroVideo.classList.add('is-playing');
-            }, { once: true });
-        }
+        }, { once: true });
+
+        // Start playback; muted autoplay is generally allowed by all browsers
+        heroVideo.play().catch(err => console.warn("Video autoplay delayed:", err));
     }
 };
 
@@ -30,16 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 loader.remove();
                 document.body.classList.remove('loading');
-            }, 500);
+            }, 500); // Wait for the 0.5s CSS transition to finish before removing
             sessionStorage.setItem('eateria_intro_played', 'true');
         }
     };
 
-    // FAST ENTRY: Reduced delay significantly for better UX
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        // We dismiss after 400ms to allow the reveal animation to play slightly,
-        // but we don't wait for the heavy window.load anymore.
-        setTimeout(dismissLoader, 400);
+        // Hold for 0.5s after the 2s animation finishes (Total 2.5s before fade starts)
+        setTimeout(dismissLoader, 2500);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
