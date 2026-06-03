@@ -15,7 +15,8 @@
     <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
     <link rel="preload" as="image" href="images/d323dc85-b17b-40db-b464-43229783fe6a(1).png">
     <link rel="preload" as="image" href="images/eateria_delivery_partner_optimized(1).webp">
-    <link rel="preload" as="video" href="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)">
+    <link rel="preload" as="video" href="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" as="video" href="assets/7890.mp4" type="video/mp4" media="(max-width: 768px)" fetchpriority="high">
 
     <!-- Content Security Policy (CSP) -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.socket.io https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self' http://localhost:5000 https://eateria-backend.onrender.com https://eateria-ui.netlify.app wss://eateria-backend.onrender.com;">
@@ -149,7 +150,8 @@
     <section id="home" class="intro-section">
     <!-- Fullscreen video background -->
     <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.webp">
-        <source src="assets/123456.mp4" type="video/mp4">
+        <source src="assets/7890.mp4" type="video/mp4" media="(max-width: 768px)">
+        <source src="assets/123456.mp4" type="video/mp4" media="(min-width: 769px)">
     </video>
 
     <!-- Optimized Overlay (Replaces CSS filter for performance) -->

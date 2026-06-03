@@ -1,62 +1,44 @@
 // Rule 1: Responsive Video Logic (Execute immediately to prevent black screen)
 const updateHeroVideoSource = () => {
     const heroVideo = document.getElementById('hero-video');
-    if (!heroVideo) return;
-
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-
-    // Optimized Selection
-    const targetSrc = (isMobile && isPortrait) ? 'assets/7890.mp4' : 'assets/123456.mp4';
-
-    const currentSrc = heroVideo.querySelector('source') ? heroVideo.querySelector('source').getAttribute('src') : '';
-    
-    if (currentSrc !== targetSrc) {
-        let source = heroVideo.querySelector('source');
-        if (!source) {
-            source = document.createElement('source');
-            heroVideo.appendChild(source);
-        }
-        source.setAttribute('src', targetSrc);
-        heroVideo.load();
-        
-        heroVideo.addEventListener('playing', () => {
-            heroVideo.classList.add('is-playing');
-        }, { once: true });
-
-        heroVideo.play().catch(() => {});
+    if (heroVideo) {
+        heroVideo.play().catch(() => {
+            // Autoplay might be blocked; handled by interaction
+        });
     }
 };
 
 // Immediate execution
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateHeroVideoSource);
-} else {
+if (document.readyState !== 'loading') {
     updateHeroVideoSource();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Dismiss Global Loader
     const loader = document.getElementById('app-loader');
-    // If the inline script in index.html already hid the loader, skip the delay
-    if (loader && loader.style.display !== 'none') {
-        // Only show the premium intro once per session to keep navigation fast
-        const hasSeenIntro = sessionStorage.getItem('eateria_intro_played');
+    const heroVideo = document.getElementById('hero-video');
 
-        if (hasSeenIntro) {
-            // Instant transition for returning users
-            loader.style.display = 'none';
-            loader.remove();
-            document.body.classList.remove('loading');
-        } else {
-            // Cinematic hold for the first visit
+    const dismissLoader = () => {
+        if (loader && loader.style.display !== 'none') {
+            loader.style.opacity = '0';
             setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 600);
+                loader.remove();
                 document.body.classList.remove('loading');
-                sessionStorage.setItem('eateria_intro_played', 'true');
-            }, 600); // Reduced delay for faster entry
+            }, 400); // Snappier removal transition
+            sessionStorage.setItem('eateria_intro_played', 'true');
         }
+    };
+
+    // Optimized Loader dismissal: wait for video or a small fail-safe timeout
+    if (loader && !sessionStorage.getItem('eateria_intro_played')) {
+        if (heroVideo) {
+            heroVideo.addEventListener('playing', dismissLoader, { once: true });
+            setTimeout(dismissLoader, 3000); // Fail-safe
+        } else {
+            dismissLoader();
+        }
+    } else if (loader) {
+        loader.style.display = 'none';
+        document.body.classList.remove('loading');
     }
 
     const checkIsMobile = () => window.matchMedia('(max-width: 768px)').matches;
@@ -150,6 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(`Order Status: ${data.status}`);
             });
         }
+
+        // Defer icon creation until after window load for smoother initial render
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     });
 
     /* ==========================================================================
@@ -1248,6 +1233,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initialize Lucide Icons
-    if (typeof lucide !== 'undefined') lucide.createIcons();
 });
