@@ -563,6 +563,7 @@ svg.icon { width: 18px; height: 18px; }
     object-fit: cover !important;
     z-index: 0; /* Ensures video is visible above the section background */
     background-color: #000; /* Fallback color matching poster */
+    pointer-events: none; /* Prevents all mouse interaction, including right-click and save-as */
     opacity: 0; /* Hidden initially so the section background poster shows while loading */
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra-smooth premium fade-in */
     will-change: transform, opacity;

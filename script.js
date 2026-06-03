@@ -30,6 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const dismissLoader = () => {
         if (loader && loader.style.display !== 'none') {
             loader.style.opacity = '0';
+
+            // Apply a subtle zoom-out and soft blur to the logo branding as the loader fades
+            const branding = loader.querySelector('.loader-branding');
+            if (branding) {
+                branding.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease';
+                branding.style.transform = 'scale(0.95)';
+                branding.style.filter = 'blur(10px)';
+            }
+
             setTimeout(() => {
                 loader.remove();
                 document.body.classList.remove('loading');
@@ -39,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        // Start dismissal exactly at 2.0s when the logo animation completes
-        setTimeout(dismissLoader, 2000);
+        // Start dismissal exactly at 2.5s when the logo animation completes
+        setTimeout(dismissLoader, 2500);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
