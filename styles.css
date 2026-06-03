@@ -3266,8 +3266,6 @@ svg.icon { width: 18px; height: 18px; }
     min-height: auto;
     padding-top: 120px;
     padding-bottom: 40px;
-    /* Keep the optimized smaller file for mobile devices */
-    background-image: url('assets/cropped_sushi.png');
   }
 
   .intro-video {

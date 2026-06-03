@@ -7,9 +7,14 @@ const updateHeroVideoSource = () => {
 
         // Using 'canplaythrough' ensures the browser predicts it can play the 
         // whole video without buffering/hanging.
-        heroVideo.addEventListener('canplaythrough', () => {
+        // We check readyState 3 (HAVE_FUTURE_DATA) or higher to see if it's already ready
+        if (heroVideo.readyState >= 3) {
             heroVideo.classList.add('is-playing');
-        }, { once: true });
+        } else {
+            heroVideo.addEventListener('canplaythrough', () => {
+                heroVideo.classList.add('is-playing');
+            }, { once: true });
+        }
 
         // Start playback; muted autoplay is generally allowed by all browsers
         heroVideo.play().catch(err => console.warn("Video autoplay delayed:", err));
@@ -28,14 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 loader.remove();
                 document.body.classList.remove('loading');
-            }, 500); // Wait for the 0.5s CSS transition to finish before removing
+            }, 400); // Wait for the 0.4s CSS transition to finish before removing
             sessionStorage.setItem('eateria_intro_played', 'true');
         }
     };
 
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        // Hold for 0.5s after the 2s animation finishes (Total 2.5s before fade starts)
-        setTimeout(dismissLoader, 2500);
+        // Start dismissal exactly at 2.0s when the logo animation completes
+        setTimeout(dismissLoader, 2000);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
