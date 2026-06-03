@@ -2,20 +2,27 @@
 const updateHeroVideoSource = () => {
     const heroVideo = document.getElementById('hero-video');
     if (heroVideo) {
+        // Ensure the video plays. The HTML handles source selection.
         heroVideo.play().catch(() => {
             // Autoplay might be blocked; handled by interaction
         });
+        
+        // If already playing, add class immediately
+        if (!heroVideo.paused) {
+            heroVideo.classList.add('is-playing');
+        } else {
+            heroVideo.addEventListener('playing', () => {
+                heroVideo.classList.add('is-playing');
+            }, { once: true });
+        }
     }
 };
 
 // Immediate execution
-if (document.readyState !== 'loading') {
-    updateHeroVideoSource();
-}
+updateHeroVideoSource();
 
 document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('app-loader');
-    const heroVideo = document.getElementById('hero-video');
 
     const dismissLoader = () => {
         if (loader && loader.style.display !== 'none') {
@@ -23,19 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 loader.remove();
                 document.body.classList.remove('loading');
-            }, 400); // Snappier removal transition
+            }, 500);
             sessionStorage.setItem('eateria_intro_played', 'true');
         }
     };
 
-    // Optimized Loader dismissal: wait for video or a small fail-safe timeout
+    // FAST ENTRY: Reduced delay significantly for better UX
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        if (heroVideo) {
-            heroVideo.addEventListener('playing', dismissLoader, { once: true });
-            setTimeout(dismissLoader, 3000); // Fail-safe
-        } else {
-            dismissLoader();
-        }
+        // We dismiss after 400ms to allow the reveal animation to play slightly,
+        // but we don't wait for the heavy window.load anymore.
+        setTimeout(dismissLoader, 400);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
@@ -125,13 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Real-time Tracking Socket
     // Move backend connectivity to happen after the UI has settled
     window.addEventListener('load', () => {
-        getOrderStatus();
-        const socket = typeof io !== 'undefined' ? io(API_URL) : null;
-        if (socket) {
-            socket.on('orderUpdate', (data) => {
-                showToast(`Order Status: ${data.status}`);
-            });
-        }
+        // Delay non-critical background tasks to ensure smooth video start
+        setTimeout(() => {
+            getOrderStatus();
+            if (typeof io !== 'undefined') {
+                io(API_URL).on('orderUpdate', (data) => showToast(`Order Status: ${data.status}`));
+            }
+        }, 3000);
 
         // Defer icon creation until after window load for smoother initial render
         if (typeof lucide !== 'undefined') lucide.createIcons();
