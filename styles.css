@@ -1945,6 +1945,10 @@ svg.icon { width: 18px; height: 18px; }
     .footer-brand .tagline {
         margin: 0 auto;
     }
+    .footer-socials {
+        justify-content: center;
+        margin-top: 24px;
+    }
 }
 
 @keyframes zoomBackground {
