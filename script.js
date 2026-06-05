@@ -1041,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset and restart animation
     function startRiderAnimation(resetProgress = true, immediate = false) {
-      // Cancel any running animation first
+      // Stop any existing frame immediately
       if (animationId) cancelAnimationFrame(animationId);
 
       // Skip animation on mobile to save resources since the map is hidden
@@ -1130,30 +1130,39 @@ document.addEventListener('DOMContentLoaded', () => {
         timelineTimeouts.forEach(clearTimeout);
         timelineTimeouts = [];
 
-        // Reset to initial state instantly only if we are starting fresh
+        // Reset to initial state instantly without backward animation or layout jumps
         document.querySelector('.tracking-container')?.classList.add('not-animating');
+        
         timelineItems.forEach(item => item.classList.remove('completed', 'active'));
         
         // Force a reflow to ensure the 'completed' removal is processed immediately
         void document.querySelector('.tracking-container')?.offsetWidth;
-        document.querySelector('.tracking-container')?.classList.remove('not-animating');
+
+        // Release the lock after a tiny buffer to let classes settle
+        setTimeout(() => {
+            document.querySelector('.tracking-container')?.classList.remove('not-animating');
+        }, 50);
 
         // Sequential Premium Reveal
         // 1. Order Placed
         timelineTimeouts.push(setTimeout(() => {
             timelineItems[0].classList.add('completed');
-        }, 300));
+        }, 400));
 
-        // 2. Preparing (triggered after line 1 fills)
+        // 2. Preparing (Synced to 1s linear transition + original delay)
         timelineTimeouts.push(setTimeout(() => {
             timelineItems[1].classList.add('completed');
-        }, 1100));
+        }, 1400));
 
-        // 3. Out for Delivery (triggered after line 2 fills)
+        // 3. Out for Delivery (Synced to follow step 2 precisely)
         timelineTimeouts.push(setTimeout(() => {
             timelineItems[2].classList.add('completed');
-            timelineItems[2].classList.add('active'); // Add pulse to current status
-        }, 1900));
+        }, 2400));
+
+        // 4. Activate Pulse (Start after the zoom animation finishes)
+        timelineTimeouts.push(setTimeout(() => {
+            timelineItems[2].classList.add('active');
+        }, 3000));
     };
 
     // Trigger via MutationObserver when modal gets 'open' class
