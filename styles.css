@@ -2592,6 +2592,15 @@ svg.icon { width: 18px; height: 18px; }
     position: relative;
     padding: 40px 10px 20px;
     margin-top: 10px;
+    perspective: 1000px;
+}
+
+/* Premium Resize Lock: Disable all transitions during layout shifts */
+.tracking-container.not-animating *,
+.tracking-container.not-animating *::before,
+.tracking-container.not-animating *::after {
+    transition: none !important;
+    animation-play-state: paused !important;
 }
 
 .timeline-item {
@@ -2604,7 +2613,7 @@ svg.icon { width: 18px; height: 18px; }
     z-index: 1;
 }
 
-/* Connector Lines */
+/* Connector Lines - Track (Grey) */
 .timeline-item:not(:last-child)::after {
     content: "";
     position: absolute;
@@ -2612,26 +2621,31 @@ svg.icon { width: 18px; height: 18px; }
     left: 50%;
     width: 100%;
     height: 2px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08) !important;
     z-index: -1;
-    transition: background 0.4s ease;
-}
-/* Step 1 → 2: full green */
-.timeline-item.completed:nth-child(1)::after {
-    background: #10b981 !important;
-    box-shadow: 0 0 6px rgba(34,197,94,0.4);
 }
 
-/* Step 2 → 3: full green */
-.timeline-item.completed:nth-child(2)::after {
-    background: #10b981 !important;
-    box-shadow: 0 0 6px rgba(34,197,94,0.4);
+/* Progress Filler (Green) */
+.timeline-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #10b981;
+    z-index: 0;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1), height 1.1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Step 3 → 4: exactly half green, half grey */
-.timeline-item.completed:nth-child(3)::after {
-    background: linear-gradient(to right, #10b981 50%, rgba(255,255,255,0.1) 50%) !important;
-    box-shadow: none;
+.timeline-item.completed:not(:last-child)::before {
+    width: 100%;
+}
+
+/* Halfway line logic */
+.timeline-item.completed:nth-child(3)::before {
+    width: 50% !important;
 }
 
 .timeline-dot {
@@ -2644,7 +2658,7 @@ svg.icon { width: 18px; height: 18px; }
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: border-color 0.4s ease, background-color 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     z-index: 2;
 }
@@ -2654,12 +2668,15 @@ svg.icon { width: 18px; height: 18px; }
     color: rgba(255, 255, 255, 0.3);
     font-size: 12px;
     font-weight: bold;
+    transition: color 0.4s ease, opacity 0.4s ease;
 }
 
 /* Completed: Outlined Circle with Checkmark */
 .timeline-item.completed .timeline-dot {
     border-color: #10b981;
     background: rgba(10, 10, 10, 0.95) !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
 }
 
 .timeline-item.completed .timeline-dot::after {
@@ -2667,6 +2684,7 @@ svg.icon { width: 18px; height: 18px; }
     color: #10b981;
     font-size: 12px;
     font-weight: bold;
+    opacity: 1;
 }
 
 /* Active: Filled Glow Dot */
@@ -3400,8 +3418,18 @@ svg.icon { width: 18px; height: 18px; }
     padding-bottom: 0 !important;
   }
 
+  /* Fix: Ensure transitions are killed instantly during reset on mobile */
+  .tracking-container.not-animating .timeline-item::before,
+  .tracking-container.not-animating .timeline-item::after {
+    transition: none !important;
+    height: 0 !important;
+  }
+
   /* Vertical connector line */
-  .timeline-item:not(:last-child)::after {
+  .timeline-item:not(:last-child)::after,
+  .timeline-item.completed:nth-child(1)::after,
+  .timeline-item.completed:nth-child(2)::after,
+  .timeline-item.completed:nth-child(3)::after {
     content: "" !important;
     position: absolute !important;
     left: 14px !important; /* Perfectly centered for 28px dot */
@@ -3409,19 +3437,28 @@ svg.icon { width: 18px; height: 18px; }
     top: 28px !important;
     width: 2px !important;
     height: calc(100% - 28px) !important;
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
     box-shadow: none !important;
   }
 
-  .timeline-item.completed:not(:last-child)::after {
+  .timeline-item:not(:last-child)::before {
+    top: 28px !important;
+    left: 14px !important;
+    width: 2px !important;
+    height: 0 !important;
+    transform: translateX(-50%) !important;
+    /* Specifically target height transition for vertical timeline on mobile */
+    transition: height 1.1s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .timeline-item.completed:not(:last-child)::before {
     background: #10b981 !important;
-    box-shadow: 0 0 6px rgba(16, 185, 129, 0.4) !important;
+    width: 2px !important;
+    height: calc(100% - 28px) !important;
   }
 
-  /* Step 3 vertical line half green */
-  .timeline-item.completed:nth-child(3)::after {
-    background: linear-gradient(to bottom, #10b981 50%, rgba(255, 255, 255, 0.1) 50%) !important;
-    box-shadow: none !important;
+  .timeline-item.completed:nth-child(3)::before {
+    height: calc(50% - 14px) !important;
   }
 
   .timeline-dot {
@@ -3432,6 +3469,7 @@ svg.icon { width: 18px; height: 18px; }
     margin-right: 14px !important;
     position: relative !important;
     z-index: 2 !important;
+    font-size: 14px !important;
   }
 
   .timeline-content {
@@ -3454,25 +3492,12 @@ svg.icon { width: 18px; height: 18px; }
     color: #666 !important;
   }
 
-  /* Active step — red pulsing dot like reference */
+  /* Active step — pulsing circle border */
   .timeline-item.active .timeline-dot {
     border-color: #10b981 !important;
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5) !important;
     background: rgba(10, 10, 10, 0.95) !important;
-  }
-
-  .timeline-item.active .timeline-dot::after {
-    content: "" !important;
-    width: 10px !important;
-    height: 10px !important;
-    border-radius: 50% !important;
-    background: #10b981 !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6) !important;
-    animation: pulse-status 1.5s infinite !important;
+    animation: pulse-status 2s infinite ease-in-out !important;
   }
 
   /* ── DELIVERY PARTNER ── */

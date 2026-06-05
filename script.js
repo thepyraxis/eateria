@@ -1040,15 +1040,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Reset and restart animation
-    function startRiderAnimation() {
-      // Skip animation on mobile to save resources since the map is hidden
-      if (checkIsMobile()) return;
-
+    function startRiderAnimation(resetProgress = true, immediate = false) {
       // Cancel any running animation first
       if (animationId) cancelAnimationFrame(animationId);
 
-      // Reset everything
-      progress = 0;
+      // Skip animation on mobile to save resources since the map is hidden
+      const isMobile = checkIsMobile();
+      if (isMobile) {
+          if (scooter) {
+              scooter.style.opacity = '0';
+              scooter.classList.remove('floating');
+          }
+          if (stopDot) stopDot.classList.remove('pulse');
+          return;
+      }
+
+      // Only reset progress if explicitly told to (e.g., on fresh modal open)
+      if (resetProgress) progress = 0;
       speed = window.innerWidth <= 768 ? 0.009 : 0.009;
       scooter.style.opacity = '1';
       scooter.style.transition = 'none'; // Clear previous transitions to prevent interference
@@ -1064,10 +1072,14 @@ document.addEventListener('DOMContentLoaded', () => {
       svgRect = svg.getBoundingClientRect();
       mapRect = mapEl.getBoundingClientRect();
 
-      // Delay so modal is fully visible before measuring positions
-      setTimeout(() => {
-        animationId = requestAnimationFrame(animateRider);
-      }, 100);
+      if (immediate) {
+          animationId = requestAnimationFrame(animateRider);
+      } else {
+          // Delay so modal is fully visible before measuring positions
+          setTimeout(() => {
+            animationId = requestAnimationFrame(animateRider);
+          }, 100);
+      }
     }
 
     /* ==========================================================================
@@ -1108,12 +1120,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let timelineTimeouts = [];
+    const animateTrackingTimeline = () => {
+        const timeline = document.querySelector('.tracking-timeline');
+        const timelineItems = document.querySelectorAll('.tracking-timeline .timeline-item');
+        if (!timelineItems.length || !timeline) return;
+
+        // Clear any existing animation timeouts to prevent overlap during resize
+        timelineTimeouts.forEach(clearTimeout);
+        timelineTimeouts = [];
+
+        // Reset to initial state instantly only if we are starting fresh
+        document.querySelector('.tracking-container')?.classList.add('not-animating');
+        timelineItems.forEach(item => item.classList.remove('completed', 'active'));
+        
+        // Force a reflow to ensure the 'completed' removal is processed immediately
+        void document.querySelector('.tracking-container')?.offsetWidth;
+        document.querySelector('.tracking-container')?.classList.remove('not-animating');
+
+        // Sequential Premium Reveal
+        // 1. Order Placed
+        timelineTimeouts.push(setTimeout(() => {
+            timelineItems[0].classList.add('completed');
+        }, 300));
+
+        // 2. Preparing (triggered after line 1 fills)
+        timelineTimeouts.push(setTimeout(() => {
+            timelineItems[1].classList.add('completed');
+        }, 1100));
+
+        // 3. Out for Delivery (triggered after line 2 fills)
+        timelineTimeouts.push(setTimeout(() => {
+            timelineItems[2].classList.add('completed');
+            timelineItems[2].classList.add('active'); // Add pulse to current status
+        }, 1900));
+    };
+
     // Trigger via MutationObserver when modal gets 'open' class
     if (trackerModal) {
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.attributeName === 'class') {
                     if (trackerModal.classList.contains('open')) {
+                        animateTrackingTimeline();
                         startRiderAnimation();
                     } else {
                         // Stop the tracking animation loop and clear CSS infinite animations
@@ -1164,11 +1213,18 @@ document.addEventListener('DOMContentLoaded', () => {
         lastWidth = currentWidth;
         lastOrientation = isPortrait;
 
-        // Fix for scooter visibility when shifting from mobile to PC site
         if (trackerModal && trackerModal.classList.contains('open')) {
-            if (!isMobile && wasMobile) {
-                // Switched from mobile to desktop: start the animation
-                startRiderAnimation();
+            if (isMobile !== wasMobile) {
+                // Premium Layout Snap: Lock all animations during the breakpoint shift
+                const container = document.querySelector('.tracking-container');
+                if (container) {
+                    container.classList.add('not-animating');
+                    // Allow layout to settle before unlocking transitions
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => container.classList.remove('not-animating'));
+                    });
+                }
+                if (!isMobile) startRiderAnimation(false);
             } else if (!isMobile && progress >= 1) {
                 // Recalibrate finished animation on resize
             const svgRect = svg.getBoundingClientRect();
@@ -1189,7 +1245,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    window.addEventListener('resize', debounce(handleResize, 150));
+    // Immediate lock on resize to prevent transition artifacts before the debounced handler
+    window.addEventListener('resize', () => {
+        if (trackerModal && trackerModal.classList.contains('open')) {
+            const container = document.querySelector('.tracking-container');
+            if (container && !container.classList.contains('not-animating')) {
+                const currentWidth = window.innerWidth;
+                if ((currentWidth <= 768) !== (lastWidth <= 768)) {
+                    container.classList.add('not-animating');
+                    if (scooter) scooter.style.opacity = '0'; // Prevent rider "shaking"
+                }
+            }
+        }
+    }, { passive: true });
+
+    window.addEventListener('resize', debounce(handleResize, 100));
 
     /* ==========================================================================
        App-like Navigation (Back Gesture Closes Modals)
