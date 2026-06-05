@@ -1164,8 +1164,13 @@ document.addEventListener('DOMContentLoaded', () => {
         lastWidth = currentWidth;
         lastOrientation = isPortrait;
 
-        // Recalibrate tracking assets if the modal is open during a resize
-        if (trackerModal && trackerModal.classList.contains('open') && progress >= 1) {
+        // Fix for scooter visibility when shifting from mobile to PC site
+        if (trackerModal && trackerModal.classList.contains('open')) {
+            if (!isMobile && wasMobile) {
+                // Switched from mobile to desktop: start the animation
+                startRiderAnimation();
+            } else if (!isMobile && progress >= 1) {
+                // Recalibrate finished animation on resize
             const svgRect = svg.getBoundingClientRect();
             const mapRect = mapEl.getBoundingClientRect();
             const totalLength = routePath.getTotalLength();
@@ -1180,6 +1185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 stopDot.style.left = pixelX + 'px';
                 stopDot.style.top  = pixelY + 'px';
             }
+        }
         }
     };
 

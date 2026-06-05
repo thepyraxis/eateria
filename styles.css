@@ -3352,19 +3352,16 @@ svg.icon { width: 18px; height: 18px; }
   }
 
   /* ── MAP ── */
-  .tracking-map-wrapper,
-  .tracking-map {
-    overflow: hidden !important;
-    border-radius: 16px !important;
-    margin-bottom: 16px !important;
+  .tracking-map-wrapper {
+    display: none !important;
   }
 
-  .tracking-map {
-    height: 220px !important;
-  }
-
+  .tracking-map-bg,
+  .tracking-map-wrapper::before,
+  .tracking-map-wrapper::after,
   .tracking-route-svg {
     overflow: hidden !important;
+    display: none !important;
   }
 
   .tracking-route-svg svg {
@@ -3373,35 +3370,12 @@ svg.icon { width: 18px; height: 18px; }
 
   .node-kitchen,
   .node-destination {
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    min-height: auto !important;
-    width: auto !important;
-    padding: 0 !important;
-    transform: translateY(-50%) !important;
-  }
-
-  .location-card h3,
-  .location-card p {
     display: none !important;
   }
 
-  .node-destination {
-    transform-origin: top right !important;
-  }
-
-  .rider-scooter {
-    width: 175px !important;
-    height: 175px !important;
-  }
-
-  .location-card .icon {
-    background: transparent !important;
-    border: none !important;
-    font-size: 24px !important;
-    margin-bottom: 0 !important;
+  .rider-scooter,
+  .rider-stop-dot {
+    display: none !important;
   }
 
   /* ── SWITCH TO VERTICAL TIMELINE ON MOBILE ── */
@@ -3905,6 +3879,11 @@ div,
     height: 180px;
     border-radius: 20px;
     overflow: hidden;
+    overflow: visible;
+    height: 100% !important;
+    display: block !important;
+    position: relative !important;
+    overflow: visible !important;
   }
 
   .tracking-route {
