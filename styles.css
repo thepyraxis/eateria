@@ -2696,14 +2696,6 @@ svg.icon { width: 18px; height: 18px; }
     opacity: 1;
 }
 
-/* Active: Filled Glow Dot */
-.timeline-item.active .timeline-dot {
-    background: #10b981;
-    border-color: #10b981;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-    animation: pulse-status 2s infinite ease-in-out;
-}
-
 .timeline-text {
     opacity: 0.3;
     transform: translateY(10px);
@@ -3510,14 +3502,6 @@ svg.icon { width: 18px; height: 18px; }
   .timeline-text p {
     font-size: 12px !important;
     color: #666 !important;
-  }
-
-  /* Active step — pulsing circle border */
-  .timeline-item.active .timeline-dot {
-    border-color: #10b981 !important;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5) !important;
-    background: rgba(10, 10, 10, 0.95) !important;
-    animation: pulse-status 2s infinite ease-in-out !important;
   }
 
   /* ── DELIVERY PARTNER ── */
