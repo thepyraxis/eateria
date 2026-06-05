@@ -1041,6 +1041,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset and restart animation
     function startRiderAnimation() {
+      // Skip animation on mobile to save resources since the map is hidden
+      if (checkIsMobile()) return;
+
       // Cancel any running animation first
       if (animationId) cancelAnimationFrame(animationId);
 
