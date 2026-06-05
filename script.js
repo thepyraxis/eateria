@@ -1162,7 +1162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 4. Activate Pulse (Start after the zoom animation finishes)
         timelineTimeouts.push(setTimeout(() => {
             timelineItems[2].classList.add('active');
-        }, 3000));
+        }, 3100)); // Increased delay slightly to ensure Step 3 zoom finishes first
     };
 
     // Trigger via MutationObserver when modal gets 'open' class

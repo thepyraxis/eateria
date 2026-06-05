@@ -2657,7 +2657,7 @@ svg.icon { width: 18px; height: 18px; }
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: rgba(10, 10, 10, 0.95) !important; /* Exact match to container bg for masking */
+    background: #0a0a0a !important; /* Solid color to perfectly mask the line behind it */
     border: 2px solid rgba(255, 255, 255, 0.2);
     margin-bottom: 15px;
     display: flex;
@@ -2665,7 +2665,7 @@ svg.icon { width: 18px; height: 18px; }
     justify-content: center;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
-    z-index: 2;
+    z-index: 5; /* Ensure dot is clearly above the progress lines */
 }
 
 .timeline-dot::after {
@@ -2684,7 +2684,7 @@ svg.icon { width: 18px; height: 18px; }
 
 .timeline-item.completed .timeline-dot {
     border-color: #10b981;
-    background: rgba(10, 10, 10, 0.95) !important;
+    background: #0a0a0a !important;
     animation: dotPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
