@@ -565,7 +565,7 @@ svg.icon { width: 18px; height: 18px; }
     background-color: #000; /* Fallback color matching poster */
     pointer-events: none; /* Prevents all mouse interaction, including right-click and save-as */
     opacity: 0; /* Hidden initially so the section background poster shows while loading */
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra-smooth premium fade-in */
+    transition: opacity 0.6s ease-in-out; /* Faster video fade-in for perceived speed */
     will-change: transform, opacity;
     transform: translate3d(0,0,0); /* Force GPU hardware acceleration */
     backface-visibility: hidden;
@@ -1723,7 +1723,7 @@ svg.icon { width: 18px; height: 18px; }
 .footer {
     background-color: var(--color-bg);
     border-top: 1px solid rgba(255, 255, 255, 0.04);
-    padding: 80px 24px 60px; /* Beautiful, clean, symmetrical bottom padding */
+    padding: 30px 24px 12px; /* Reduced overall vertical footprint */
     position: relative;
     z-index: 1;
     overflow: hidden;
@@ -1738,14 +1738,14 @@ svg.icon { width: 18px; height: 18px; }
     border: none;
     height: 1px;
     background-color: rgba(255, 255, 255, 0.06);
-    margin-bottom: 40px;
+    margin-bottom: 8px; /* Tighter gap above credits */
 }
 
 .footer-bottom {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 48px;
-    margin-bottom: 40px;
+    margin-bottom: 15px; /* Tighter gap between brand content and divider */
 }
 
 .footer-brand .logo {
