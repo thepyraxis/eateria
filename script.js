@@ -8,7 +8,7 @@ const updateHeroVideoSource = () => {
         if (heroVideo.readyState >= 2) {
             setPlaying();
         } else {
-            heroVideo.addEventListener('canplay', setPlaying, { once: true });
+            heroVideo.addEventListener('loadeddata', setPlaying, { once: true });
         }
 
         heroVideo.addEventListener('playing', setPlaying, { once: true });
@@ -119,6 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
+    const saveCartDebounced = debounce(() => {
+        localStorage.setItem('eateria_cart', JSON.stringify(cart));
+    }, 300);
+
     /* ==========================================================================
        PREMIUM: Value Counter Animation (₹)
        ========================================================================== */
@@ -152,12 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Real-time Tracking Socket
     // Move backend connectivity to happen after the UI has settled
     window.addEventListener('load', () => {
-        // Delay non-critical background tasks to ensure smooth video start
         setTimeout(() => {
             getOrderStatus();
-            if (typeof io !== 'undefined') {
-                io(API_URL).on('orderUpdate', (data) => showToast(`Order Status: ${data.status}`));
-            }
+
+            // Dynamically load socket.io only when actually needed
+            const script = document.createElement('script');
+            script.src = 'https://cdn.socket.io/4.7.2/socket.io.min.js';
+            script.onload = () => {
+                if (typeof io !== 'undefined') {
+                    io(API_URL).on('orderUpdate', (data) => showToast(`Order Status: ${data.status}`));
+                }
+            };
+            document.head.appendChild(script);
         }, 3000);
 
         // Initialize Icons immediately but keep heavy effects deferred
@@ -764,7 +774,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        saveCart(); // Save state on every UI update
+        saveCartDebounced(); // Save state on every UI update
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        } else {
+            // Resume only if tracker modal is open and animation was running
+            if (trackerModal?.classList.contains('open') && progress < 1 && !animationId) {
+                startRiderAnimation(false, true);
+            }
+        }
+    });
 
         // Update Badge Count
         if (cartBadge) cartBadge.textContent = totalItems;
