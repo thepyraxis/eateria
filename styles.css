@@ -4,12 +4,29 @@
 :root {
     /* Color Palette */
     --color-bg: #000000;
-    --color-surface: #121212;
-    --color-surface-hover: #1c1c1c;
-    --color-accent: #F4A7A4; /* Soft Coral / Salmon Accent */
-    --color-accent-rgb: 244, 167, 164;
-    --color-accent-muted: rgba(244, 167, 164, 0.15);
-    
+    --color-surface-0: #000000;
+    --color-surface-1: #0a0a0a;
+    --color-surface-2: #111111;
+    --color-surface-3: #1a1a1a;
+    --color-surface-4: #222222;
+
+    --color-accent: #F09E9B;
+    --color-accent-bright: #F4A7A4;
+    --color-accent-deep: #D4706C;
+    --color-accent-rgb: 240, 158, 155;
+    --color-accent-muted: rgba(240, 158, 155, 0.12);
+
+    /* Glass layers */
+    --glass-1: rgba(255, 255, 255, 0.03);
+    --glass-2: rgba(255, 255, 255, 0.06);
+    --glass-3: rgba(255, 255, 255, 0.09);
+
+    /* Premium borders */
+    --border-0: 1px solid rgba(255, 255, 255, 0.04);
+    --border-1: 1px solid rgba(255, 255, 255, 0.07);
+    --border-2: 1px solid rgba(255, 255, 255, 0.12);
+    --border-accent: 1px solid rgba(240, 158, 155, 0.25);
+
     --color-text-primary: #FFFFFF;
     --color-text-secondary: #A0A0A0;
     --color-text-muted: #666666;
@@ -19,26 +36,69 @@
     --font-body: 'Outfit', 'Inter', sans-serif;
     
     /* Borders & Corners */
-    --radius-sm: 8px;
+    --radius-xs: 6px;
+    --radius-sm: 10px;
     --radius-md: 16px;
     --radius-lg: 24px;
+    --radius-xl: 32px;
     --radius-full: 9999px;
     
-    --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
-    --border-accent: 1px solid var(--color-accent);
-    
     /* Shadows & Glows */
-    --shadow-subtle: 0 4px 30px rgba(0, 0, 0, 0.4);
-    --shadow-neon: 0 0 20px rgba(244, 167, 164, 0.25);
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.75);
+    --shadow-accent: 0 8px 32px rgba(240, 158, 155, 0.12);
     
     /* Backdrop Filters */
     --glass-bg: rgba(18, 18, 18, 0.7);
     --glass-blur: blur(12px);
     
     /* Transitions */
-    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-timing: var(--ease-smooth);
     --transition-fast: transform 0.2s var(--transition-timing), opacity 0.2s var(--transition-timing), background-color 0.2s var(--transition-timing), border-color 0.2s var(--transition-timing), color 0.2s var(--transition-timing);
     --transition-smooth: transform 0.4s var(--transition-timing), opacity 0.4s var(--transition-timing), background-color 0.4s var(--transition-timing), border-color 0.4s var(--transition-timing), color 0.4s var(--transition-timing);
+}
+
+/* Premium Stagger & Springs */
+.modal .modal-content,
+.modal .payment-container,
+.modal .tracking-container {
+    transition: transform 0.5s var(--ease-spring), opacity 0.4s var(--ease-smooth) !important;
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+}
+
+.modal.open .modal-content,
+.modal.open .payment-container,
+.modal.open .tracking-container {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Scroll Progress Utilities */
+.scroll-progress-line {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent));
+    z-index: 9999;
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+}
+
+/* Staggered Card Reveal */
+.menu-card, .contact-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo) !important;
+}
+
+.menu-card.reveal, .contact-card.reveal {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ==========================================================================
@@ -53,6 +113,7 @@
 html {
     scroll-behavior: smooth;
     background-color: var(--color-bg);
+    text-rendering: optimizeLegibility;
     color: var(--color-text-primary);
     font-family: var(--font-body);
     font-weight: 400;
@@ -345,6 +406,9 @@ svg.icon { width: 18px; height: 18px; }
 .hero { padding-top: 56px; padding-bottom: 56px; }
 @media (min-width: 900px) { .hero { padding-top: 84px; padding-bottom: 84px; } }
 
+/* Performance: Skip rendering off-screen content initially */
+.menu-section, .story-section, .reservation-section, .footer { content-visibility: auto; contain-intrinsic-size: 1px 1000px; }
+
 /* Sidebar/floating actions */
 .floating-action { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; transition: background 160ms ease, transform 160ms ease; }
 .floating-action:hover { background: rgba(255,255,255,0.04); transform: translateY(-3px); }
@@ -548,10 +612,11 @@ svg.icon { width: 18px; height: 18px; }
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    perspective: 1200px; /* Enables 3D space */
+    perspective: 1200px;
     /* Background acts as a high-quality "pose" while video loads on PC */
     background: #000 url('assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png') center center/cover no-repeat;
     background-color: #000;
+    content-visibility: visible; /* Ensure hero is rendered immediately */
 }
 
 /* Background video */
@@ -564,8 +629,8 @@ svg.icon { width: 18px; height: 18px; }
     z-index: 0; /* Ensures video is visible above the section background */
     background-color: #000; /* Fallback color matching poster */
     pointer-events: none; /* Prevents all mouse interaction, including right-click and save-as */
-    opacity: 0; /* Hidden initially so the section background poster shows while loading */
-    transition: opacity 0.6s ease-in-out; /* Faster video fade-in for perceived speed */
+    opacity: 0; /* Hide until ready to play */
+    transition: opacity 1s ease-in-out; /* Smoother fade-in */
     will-change: transform, opacity;
     transform: translate3d(0,0,0); /* Force GPU hardware acceleration */
     backface-visibility: hidden;
@@ -579,7 +644,12 @@ svg.icon { width: 18px; height: 18px; }
 .intro-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.25) 50%,
+        rgba(0,0,0,0.65) 100%
+    );
     z-index: 1;
     pointer-events: none;
 }
@@ -591,7 +661,7 @@ svg.icon { width: 18px; height: 18px; }
     max-width: 950px;
     padding: 0 24px;
     text-align: center;
-    transform-style: preserve-3d;
+    transform-style: flat; /* Changing preserve-3d to flat significantly boosts mobile performance */
     animation: cinematicEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     will-change: transform;
     backface-visibility: hidden;
@@ -605,24 +675,27 @@ svg.icon { width: 18px; height: 18px; }
     100% {
         opacity: 1;
         transform: translateZ(0) rotateX(0deg);
-            transform: translate3d(0, 0, 0) rotateX(0deg);
+        transform: translate3d(0, 0, 0) rotateX(0deg);
     }
 }
 
 .intro-content {
-    background: transparent; /* Fully transparent background */
-    backdrop-filter: blur(10px); /* Added blur for better readability with the lighter panel */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 40px 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-    transform: translateZ(50px); /* Pushes content forward in 3D space */
+    background: rgba(0, 0, 0, 0.6); /* Slightly more solid for fast boot readability */
+    border: var(--border-1);
+    border-top-color: rgba(255,255,255,0.12);
+    border-radius: var(--radius-xl);
+    padding: 48px 40px;
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.07);
     backface-visibility: hidden;
-    will-change: filter; /* Hint to browser for smoother backdrop-filter rendering */
+    will-change: transform, opacity;
     -webkit-backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .intro-content { backdrop-filter: blur(16px) saturate(150%); } /* Restrict blur to desktop */
 }
 
 .intro-title {
@@ -2013,6 +2086,7 @@ svg.icon { width: 18px; height: 18px; }
 
 .cart-drawer.open {
     transform: translateX(0);
+    backdrop-filter: blur(12px); /* Apply only when open to save memory */
 }
 
 .cart-drawer-header {
@@ -4016,8 +4090,8 @@ div,
     .modal-content,
     .location-card,
     .delivery-partner-card {
-        backdrop-filter: blur(6px) !important;
-        -webkit-backdrop-filter: blur(6px) !important;
+        backdrop-filter: none !important; /* Disabling blur on mobile prevents the "stuck" UI */
+        -webkit-backdrop-filter: none !important;
         background: rgba(10, 10, 10, 0.98) !important;
         box-shadow: none !important;
     }

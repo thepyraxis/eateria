@@ -2,12 +2,8 @@
 const updateHeroVideoSource = () => {
     const heroVideo = document.getElementById('hero-video');
     if (heroVideo) {
-        // Force the browser to start parsing the video sources immediately
-        heroVideo.load();
-
         // Using 'canplaythrough' ensures the browser predicts it can play the 
         // whole video without buffering/hanging.
-        // We check readyState 3 (HAVE_FUTURE_DATA) or higher to see if it's already ready
         if (heroVideo.readyState >= 3) {
             heroVideo.classList.add('is-playing');
         } else {
@@ -31,25 +27,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loader && loader.style.display !== 'none') {
             loader.style.opacity = '0';
 
-            // Apply a subtle zoom-out and soft blur to the logo branding as the loader fades
+            // snappier exit for premium feel
             const branding = loader.querySelector('.loader-branding');
             if (branding) {
-                branding.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease';
+                branding.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease';
                 branding.style.transform = 'scale(0.95)';
-                branding.style.filter = 'blur(10px)';
+                branding.style.opacity = '0';
             }
 
             setTimeout(() => {
                 loader.remove();
                 document.body.classList.remove('loading');
-            }, 400); // Wait for the 0.4s CSS transition to finish before removing
+            }, 500); 
             sessionStorage.setItem('eateria_intro_played', 'true');
         }
     };
 
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        // Start dismissal exactly at 2.5s when the logo animation completes
-        setTimeout(dismissLoader, 2500);
+        // Reduced delay for faster initial interaction while maintaining branding presence
+        setTimeout(dismissLoader, 1000);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
@@ -122,6 +118,22 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
+    /* ==========================================================================
+       PREMIUM: Value Counter Animation (₹)
+       ========================================================================== */
+    const animateValue = (el, from, to, duration = 400) => {
+        if (!el) return;
+        const start = performance.now();
+        const update = (time) => {
+            const progress = Math.min((time - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+            const val = Math.round(from + (to - from) * eased);
+            el.textContent = `₹${val}`;
+            if (progress < 1) requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+    };
+
     // Fetch live order data
     async function getOrderStatus() {
         try {
@@ -147,8 +159,63 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 3000);
 
-        // Defer icon creation until after window load for smoother initial render
         if (typeof lucide !== 'undefined') lucide.createIcons();
+
+         /* ============================================================
+            PREMIUM: Interactive Effects (Magnetic, Parallax, Ripple)
+            ============================================================ */
+         if (!checkIsMobile()) {
+             // Magnetic CTAs
+             document.querySelectorAll('.cta-order-online, #cart-checkout-btn, #pay-submit-btn').forEach(btn => {
+                 btn.addEventListener('mousemove', (e) => {
+                     const rect = btn.getBoundingClientRect();
+                     const dx = e.clientX - (rect.left + rect.width / 2);
+                     const dy = e.clientY - (rect.top + rect.height / 2);
+                     btn.style.transform = `translate(${dx * 0.15}px, ${dy * 0.15}px) translateY(-2px)`;
+                 });
+                 btn.addEventListener('mouseleave', () => btn.style.transform = '');
+             });
+ 
+             // Card Parallax Tilt
+             document.querySelectorAll('.menu-card').forEach(card => {
+                 card.addEventListener('mousemove', (e) => {
+                     const rect = card.getBoundingClientRect();
+                     const dx = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
+                     const dy = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
+                     card.style.transform = `translateY(-8px) rotateX(${-dy * 5}deg) rotateY(${dx * 5}deg)`;
+                 });
+                 card.addEventListener('mouseleave', () => card.style.transform = '');
+             });
+         }
+
+        // Global Ripple Effect
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('.add-to-cart-quick, .btn-primary, .time-slot');
+            if (!target) return;
+
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple-effect';
+            const rect = target.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+            
+            target.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // Scroll Progress Line
+        const progressLine = document.createElement('div');
+        progressLine.className = 'scroll-progress-line';
+        body.appendChild(progressLine);
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) : 0;
+            progressLine.style.transform = `scaleX(${Math.min(progress, 1)})`;
+        }, { passive: true });
     });
 
     /* ==========================================================================
@@ -282,10 +349,9 @@ document.addEventListener('DOMContentLoaded', () => {
        3. Intersection Observer for Active Link Highlights
        ========================================================================== */
     const sections = document.querySelectorAll('section, footer');
-    
     const observerOptions = {
         root: null,
-        rootMargin: '-20% 0px -60% 0px', // Trigger when section occupies sweet spot
+        rootMargin: '-20% 0px -60% 0px',
         threshold: 0
     };
 
@@ -314,10 +380,15 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                // Stagger reveal for child cards if present
+                const cards = entry.target.querySelectorAll('.menu-card, .contact-card');
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('reveal'), i * 80);
+                });
                 scrollRevealObserver.unobserve(entry.target); // Only animate once
             }
         });
-    }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     document.querySelectorAll('.fade-section').forEach(section => {
         scrollRevealObserver.observe(section);
@@ -692,7 +763,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cartBadge) cartBadge.textContent = totalItems;
         if (cartDrawerCount) cartDrawerCount.textContent = totalItems;
 
-        // Update Prices
+        // PREMIUM: Animate Price changes
+        const prevSubtotal = parseInt(cartDrawerSubtotal?.textContent.replace(/[^0-9]/g, '') || '0');
+        if (subtotal !== prevSubtotal) {
+            animateValue(cartDrawerSubtotal, prevSubtotal, subtotal);
+            animateValue(cartBtnTotal, prevSubtotal, subtotal);
+        }
         if (cartDrawerSubtotal) cartDrawerSubtotal.textContent = `₹${subtotal}`;
         if (cartBtnTotal) cartBtnTotal.textContent = `₹${subtotal}`;
 
