@@ -12,7 +12,6 @@
     <link rel="apple-touch-icon" href="images/favicon-180.png">
 
     <!-- Preload Critical Assets for Instant Feel -->
-    <link rel="preload" as="image" href="assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png" fetchpriority="high">
     <link rel="preload" as="image" href="images/d323dc85-b17b-40db-b464-43229783fe6a(1).png">
     <link rel="preload" as="image" href="images/eateria_delivery_partner_optimized(1).webp">
     <!-- Heavy video preload removed from high priority to allow scripts to load first -->
@@ -120,8 +119,8 @@
             <nav class="nav-links" id="nav-menu">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#menu" class="nav-link">Menu</a>
-                <a href="#reservations" class="nav-link">Reservations</a>
                 <a href="#story" class="nav-link">Our Story</a>
+                <a href="#reservations" class="nav-link">Reservations</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </nav>
             
@@ -155,7 +154,7 @@
     <main id="main-content">
     <section id="home" class="intro-section">
     <!-- Fullscreen video background -->
-    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png" disablePictureInPicture controlsList="nodownload noremoteplayback noplaybackrate">
+    <video class="intro-video" id="hero-video" autoplay muted loop playsinline preload="auto" disablePictureInPicture controlsList="nodownload noremoteplayback noplaybackrate">
         <source src="assets/123456.webm" type="video/webm">
         <source src="assets/123456.mp4" type="video/mp4">
     </video>
@@ -766,8 +765,8 @@
                     <h5>Services</h5>
 
                     <a href="#menu">Order Online</a>
-                    <a href="#reservations">Reserve a Table</a>
                     <a href="#story">Our Story</a>
+                    <a href="#reservations">Reserve a Table</a>
                 </div>
             </div>
 

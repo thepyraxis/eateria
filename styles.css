@@ -48,6 +48,7 @@
     --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.55);
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.75);
     --shadow-accent: 0 8px 32px rgba(240, 158, 155, 0.12);
+    --shadow-neon: 0 0 20px rgba(240, 158, 155, 0.15);
     
     /* Backdrop Filters */
     --glass-bg: rgba(18, 18, 18, 0.7);
@@ -212,6 +213,8 @@ img {
     transition: var(--transition-smooth);
     letter-spacing: 0.5px;
     gap: 10px;
+    position: relative; /* Anchor for ripples */
+    overflow: hidden; /* Clips ripples and glows */
 }
 
 .btn-sm {
@@ -613,6 +616,7 @@ svg.icon { width: 18px; height: 18px; }
     justify-content: center;
     overflow: hidden;
     perspective: 1200px;
+    /* Solid background color fallback */
     /* Background acts as a high-quality "pose" while video loads on PC */
     background: #000 url('assets/ChatGPT Image Jun 4, 2026, 12_05_24 AM.png') center center/cover no-repeat;
     background-color: #000;
@@ -630,6 +634,8 @@ svg.icon { width: 18px; height: 18px; }
     background-color: #000; /* Fallback color matching poster */
     pointer-events: none; /* Prevents all mouse interaction, including right-click and save-as */
     opacity: 0; /* Hide until ready to play */
+    transition: opacity 0.6s ease-in-out; /* Snappier fade-in since background image is removed */
+    opacity: 0.01; /* Minimal opacity to trigger hardware layer without blocking poster */
     transition: opacity 1s ease-in-out; /* Smoother fade-in */
     will-change: transform, opacity;
     transform: translate3d(0,0,0); /* Force GPU hardware acceleration */
@@ -662,11 +668,48 @@ svg.icon { width: 18px; height: 18px; }
     padding: 0 24px;
     text-align: center;
     transform-style: flat; /* Changing preserve-3d to flat significantly boosts mobile performance */
+    transform-style: preserve-3d;
     animation: cinematicEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     will-change: transform;
     backface-visibility: hidden;
 }
 
+/* Premium Utilities */
+.scroll-progress-line {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent));
+    z-index: 9999;
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+}
+
+.ripple-effect {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-animation 0.6s ease-out;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes ripple-animation {
+    to { transform: scale(2.5); opacity: 0; }
+}
+
+/* Staggered Reveal Classes */
+.menu-card, .contact-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo) !important;
+}
+
+.menu-card.reveal, .contact-card.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
 @keyframes cinematicEntrance {
     0% {
         opacity: 0;
@@ -856,17 +899,22 @@ svg.icon { width: 18px; height: 18px; }
 
 .menu-card {
     background-color: var(--color-surface);
+    background-color: var(--color-surface-2);
     border: var(--border-subtle);
     border-radius: var(--radius-lg);
     overflow: hidden;
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
     box-shadow: var(--shadow-subtle);
 }
 
 .menu-card:hover {
     transform: translateY(-8px);
+    border-color: rgba(240, 158, 155, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(240, 158, 155, 0.1);
     border-color: rgba(255, 255, 255, 0.15);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
@@ -886,6 +934,7 @@ svg.icon { width: 18px; height: 18px; }
     width: 100%;
     aspect-ratio: 1.1 / 1;
     overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 .card-img {

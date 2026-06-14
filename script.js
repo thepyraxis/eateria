@@ -2,15 +2,16 @@
 const updateHeroVideoSource = () => {
     const heroVideo = document.getElementById('hero-video');
     if (heroVideo) {
-        // Using 'canplaythrough' ensures the browser predicts it can play the 
-        // whole video without buffering/hanging.
-        if (heroVideo.readyState >= 3) {
-            heroVideo.classList.add('is-playing');
+        const setPlaying = () => heroVideo.classList.add('is-playing');
+
+        // Show video as soon as the first frame is available (HAVE_CURRENT_DATA)
+        if (heroVideo.readyState >= 2) {
+            setPlaying();
         } else {
-            heroVideo.addEventListener('canplaythrough', () => {
-                heroVideo.classList.add('is-playing');
-            }, { once: true });
+            heroVideo.addEventListener('canplay', setPlaying, { once: true });
         }
+
+        heroVideo.addEventListener('playing', setPlaying, { once: true });
 
         // Start playback; muted autoplay is generally allowed by all browsers
         heroVideo.play().catch(err => console.warn("Video autoplay delayed:", err));
