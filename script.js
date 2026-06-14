@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (loader && !sessionStorage.getItem('eateria_intro_played')) {
-        // Reduced delay for faster initial interaction while maintaining branding presence
-        setTimeout(dismissLoader, 1000);
+        // Fast Boot: Reduced delay for snappier entry
+        setTimeout(dismissLoader, 700);
     } else if (loader) {
         loader.style.display = 'none';
         document.body.classList.remove('loading');
@@ -160,12 +160,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 3000);
 
+        // Initialize Icons immediately but keep heavy effects deferred
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
          /* ============================================================
             PREMIUM: Interactive Effects (Magnetic, Parallax, Ripple)
             ============================================================ */
-         if (!checkIsMobile()) {
+         const initInteractiveEffects = () => {
+             if (checkIsMobile()) return;
+
              // Magnetic CTAs
              document.querySelectorAll('.cta-order-online, #cart-checkout-btn, #pay-submit-btn').forEach(btn => {
                  btn.addEventListener('mousemove', (e) => {
@@ -187,7 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
                  });
                  card.addEventListener('mouseleave', () => card.style.transform = '');
              });
-         }
+         };
+
+         // Only run heavy calculations after the page is visually ready
+         requestAnimationFrame(initInteractiveEffects);
 
         // Global Ripple Effect
         document.addEventListener('click', (e) => {
